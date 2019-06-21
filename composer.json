@@ -1,0 +1,50 @@
+{
+  "name": "sb2-media/wp-headless-lib",
+  "description": "WPGraphQL supported framework for crafting plugins to use WordPress as a headless CMS.",
+  "keywords": [
+    "wordpress",
+    "wordpress plugin framework",
+    "framework",
+    "library",
+    "wpgraphql",
+    "graphql",
+    "headless",
+    "headless cms"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Stephen Barry",
+      "email": "sbarry50@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "illuminate/config": "^5.8",
+    "illuminate/container": "^5.8",
+    "illuminate/contracts": "^5.8",
+    "illuminate/database": "^5.8",
+    "illuminate/events": "^5.8",
+    "illuminate/filesystem": "^5.8",
+    "illuminate/support": "^5.8",
+    "illuminate/view": "^5.8",
+    "league/flysystem": "^1.0",
+    "pimple/pimple": "~3.0",
+    "wp-graphql/wp-graphql": "^0.3.4",
+    "downshiftorg/wp-event-emitter": "^6.0",
+    "vlucas/phpdotenv": "^3.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "SB2Media\\Headless\\": "src/"
+    },
+    "classmap": [],
+    "files": [
+      "src/helpers.php"
+    ]
+  }
+}
