@@ -3,7 +3,7 @@
  * Class that defines the plugin's constants.
  *
  * @package    SB2Media\Headless
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -25,7 +25,7 @@ class Constants implements ConstantsContract
     /**
      * Constructor
      *
-     * @since  1.0.0
+     * @since  0.1.0
      */
     public function __construct()
     {
@@ -36,7 +36,7 @@ class Constants implements ConstantsContract
     /**
      * Defines the plugin's constants
      *
-     * @since  1.0.0
+     * @since  0.1.0
      */
     public function define()
     {
@@ -50,7 +50,7 @@ class Constants implements ConstantsContract
     /**
      * Add additional constants to the default constants array
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return array    $this->constants    The plugin constants
      */
     public function add(array $constants)
@@ -62,7 +62,7 @@ class Constants implements ConstantsContract
 
     /**
      * Get the array of constants
-     * @since  1.0.0
+     * @since  0.1.0
      * @return array    $this->constants    Plugin constants
      */
     public function get()
@@ -73,7 +73,7 @@ class Constants implements ConstantsContract
     /**
      * Build the constants configuration array
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @return array
      */
     protected function build()
@@ -94,7 +94,7 @@ class Constants implements ConstantsContract
     /**
      * Convert the plugin id to the constants prefix
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $plugin_id
      * @return string
      */

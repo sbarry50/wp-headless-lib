@@ -3,7 +3,7 @@
  * Class for registering WordPress meta boxes
  *
  * @package    SB2Media\Headless\WordPress
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -20,7 +20,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Constructor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      */
     public function __construct(array $config)
@@ -32,7 +32,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Register the meta boxes with WordPress
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return this
      */
     public function register()
@@ -59,7 +59,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Add meta boxes to through WordPress through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()
@@ -70,7 +70,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Callback function to route data to appropriate template for display
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param Array $config
      * @return void
      */
@@ -92,7 +92,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Emit filter event to add custom meta box class through WordPress hook system
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param Array $config
      * @return void
      */
@@ -106,7 +106,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Add custom-meta-box class to WP's postbox classes array
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param Array $classes
      * @return void
      */
@@ -119,7 +119,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     /**
      * Retrieve all the meta fields in a particular section
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $meta_box_id
      * @return array $section_meta_fields
      */

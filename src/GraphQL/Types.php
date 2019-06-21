@@ -3,7 +3,7 @@
  * Class for registering custom types with WPGraphQL
  *
  * @package    SB2Media\Headless\GraphQL
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -20,7 +20,7 @@ class Types extends GraphQLManager implements WordPressAPIContract
     /**
      * Register custom GraphQL types with WPGraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function register()
@@ -41,7 +41,7 @@ class Types extends GraphQLManager implements WordPressAPIContract
     /**
      * Add custom GraphQL types through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()
@@ -52,7 +52,7 @@ class Types extends GraphQLManager implements WordPressAPIContract
     /**
      * Check if type to be registered is a valid GraphQL type
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $type
      * @return boolean
      */

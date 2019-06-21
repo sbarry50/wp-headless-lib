@@ -3,7 +3,7 @@
  * Class for registering WordPress custom taxonomies
  *
  * @package    SB2Media\Headless\WordPress
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -18,7 +18,7 @@ class Taxonomies extends WordPress implements WordPressAPIContract
     /**
      * Register the taxonomies with WordPress
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return this
      */
     public function register()
@@ -37,7 +37,7 @@ class Taxonomies extends WordPress implements WordPressAPIContract
     /**
      * Add taxonomies to WordPress through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()

@@ -3,7 +3,7 @@
  * GraphQL Resolver Contract
  *
  * @package    SB2Media\Headless\Contracts
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -16,7 +16,7 @@ interface GraphQLResolverContract
     /**
      * Resolve the setting/meta-field for WPGraphQL. Should account for empty values.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      * @param mixed $value
      * @return void

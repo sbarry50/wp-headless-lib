@@ -3,7 +3,7 @@
  * Class that defines plugin activation/deactivation/uninstall callbacks.
  *
  * @package    SB2Media\Headless\Setup
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -30,7 +30,7 @@ class Activation
     /**
      * Initialize the class
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @return object
      */
     public static function init()
@@ -42,7 +42,7 @@ class Activation
     /**
      * Register the activation, deactivation and uninstall WordPress hooks
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  $file    Plugin root file
      */
     public static function register($file)
@@ -56,7 +56,7 @@ class Activation
     /**
      * Activation actions
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @return null
      */
     public static function activate()
@@ -77,7 +77,7 @@ class Activation
     /**
      * Deactivation actions
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @return null
      */
     public static function deactivate()
@@ -103,7 +103,7 @@ class Activation
     /**
      * Uninstallation actions
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @return null
      */
     public static function uninstall()

@@ -3,7 +3,7 @@
  * Class for registering WordPress administration menus
  *
  * @package    SB2Media\Headless\WordPress
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -19,7 +19,7 @@ class Menus extends WordPress implements WordPressAPIContract
     /**
      * Register the menus with WordPress
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return this
      */
     public function register()
@@ -44,7 +44,7 @@ class Menus extends WordPress implements WordPressAPIContract
     /**
      * Add menus to WordPress through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()

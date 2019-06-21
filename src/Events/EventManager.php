@@ -3,7 +3,7 @@
  * The WordPress event manager wrapper for DownShift's Wordpress EventEmitter Interface.
  *
  * @package    SB2Media\Headless\Events
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://sb2media.com
  * @license    GNU General Public License 2.0+
@@ -24,7 +24,7 @@ class EventManager extends Events
     /**
      * Add an action to an event hook through the WordPress Plugin API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $event           The event hook
      * @param        $callback        The callback function to add to the event hook
      * @param int    $priority        Used to specify the order in which the functions associated with a particular action are executed.
@@ -40,7 +40,7 @@ class EventManager extends Events
     /**
      * Add a filter through the WordPress Plugin API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $name            The name of the filter
      * @param        $callback        The callback function to be run when the filter is applied.
      * @param int    $priority        Used to specify the order in which the functions associated with a particular action are executed.
@@ -55,7 +55,7 @@ class EventManager extends Events
     /**
      * Remove an action from an event hook already registered through the WordPress Plugin API
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param string $event           The event hook
      * @param        $callback        The function to add to the event hook
      * @param int    $priority        Used to specify the order in which the functions associated with a particular action are executed.
@@ -70,7 +70,7 @@ class EventManager extends Events
     /**
      * Get an instance of the Event Emitter class
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string    $id   Name of the instance to retrieve
      * @return EventEmitter
      */

@@ -3,7 +3,7 @@
  * Helper functions.
  *
  * @package    SB2Media\Headless
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry50
  * @link       https://github.com/sbarry50/simple-wordpress-settings-pages
  * @license    GNU General Public License 2.0+
@@ -18,7 +18,7 @@ use SB2Media\Headless\File\Loader;
 /**
  * Launch the application
  *
- * @since 1.0.0
+ * @since 0.1.0
  * @param string $plugin_root_file
  * @return void
  */
@@ -31,7 +31,7 @@ function launch(string $plugin_root_file)
 /**
  * Set the Application instance / Get the available container instance.
  *
- * @since  1.0.0
+ * @since  0.1.0
  * @param  string $abstract
  * @return Application
  *
@@ -68,7 +68,7 @@ function app($abstract = null)
  *
  * If an array is passed as the key, we will assume you want to set an array of values.
  *
- * @since  1.0.0
+ * @since  0.1.0
  * @param  array|string $key
  * @param  mixed        $default
  * @return Config
@@ -91,7 +91,7 @@ function config($key = null, $default = null)
 /**
  * Get the path of a config file
  *
- * @since 1.0.0
+ * @since 0.1.0
  * @param string $filename
  * @return void
  */
@@ -103,7 +103,7 @@ function configPath(string $filename)
 /**
  * Get the (sub)directory path of the plugin.
  *
- * @since 1.0.0
+ * @since 0.1.0
  * @param string $subdir    Optionally, the name of a subdirectory
  * @return string
  */
@@ -123,7 +123,7 @@ function path($subdir = '', $file = '')
 /**
  * Get the (sub)directory url of the plugin.
  *
- * @since 1.0.0
+ * @since 0.1.0
  * @param string $subdir    Optionally, the name of a subdirectory
  * @return string
  */
@@ -143,7 +143,7 @@ function url($subdir = '', $file = '')
 /**
  * Get plugin data from the plugin's bootstrap file header comment using WP core's get_file_data function
  *
- * @since  1.0.0
+ * @since  0.1.0
  * @param  string    $id    Plugin header data unique id
  * @return array            Array of plugin data from the bootstrap file header comment
  */
@@ -168,7 +168,7 @@ function headerData(string $id, string $plugin_root_file)
 /**
  * Checks if an array is multi-dimensional
  *
- * @since  1.0.0
+ * @since  0.1.0
  * @param  string    $arr    The array to be checked
  * @return bool
  *

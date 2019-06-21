@@ -3,7 +3,7 @@
  * View composer class
  *
  * @package    SB2Media\Headless\View
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -22,7 +22,7 @@ class ViewFinder
     /**
      * Find the view file, pass it the configuration and render the output
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $filename
      * @param array $config
      * @param boolean $field
@@ -49,7 +49,7 @@ class ViewFinder
     /**
      * Get the fully qualified file path of the view in either the plugin or the framework.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string    $filename
      * @param boolean   $field
      * @param string    $location   Whether to check in plugin or framework view folder. Possible values 'plugin' or 'framework'

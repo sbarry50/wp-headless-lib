@@ -3,7 +3,7 @@
  * Interface for loading files, assets and views.
  *
  * @package    SB2Media\Headless\Contracts
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -17,7 +17,7 @@ interface LoaderContract
     /**
      * Load a file
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string    $file     The direct path and filename of the file to be loaded
      * @return string    Contents of the file
      */
@@ -26,7 +26,7 @@ interface LoaderContract
     /**
      * Load a view file or asset that requires output buffering
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string    $file     The direct path and filename of the file to be loaded
      * @return string    The contents of the file
      */

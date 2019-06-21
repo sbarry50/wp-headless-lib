@@ -3,7 +3,7 @@
  * Class for registering WordPress custom post types
  *
  * @package    SB2Media\Headless\WordPress
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -19,7 +19,7 @@ class CustomPostTypes extends WordPress implements WordPressAPIContract
     /**
      * Register the custom post types with WordPress
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return this
      */
     public function register()
@@ -34,7 +34,7 @@ class CustomPostTypes extends WordPress implements WordPressAPIContract
     /**
      * Add custom post types to WordPress through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()

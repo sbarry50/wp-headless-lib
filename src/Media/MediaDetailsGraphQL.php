@@ -3,7 +3,7 @@
  * Class for resolving the MediaDetails object type
  *
  * @package    SB2Media\BusinessInfo\Hours
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -19,7 +19,7 @@ class MediaDetailsGraphQL implements GraphQLResolverContract
     /**
      * Resolve the media details for GraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      * @param string|array $value
      * @return void

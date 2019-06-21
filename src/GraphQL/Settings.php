@@ -3,7 +3,7 @@
  * Class for registering custom settings with WPGraphQL
  *
  * @package    SB2Media\Headless\GraphQL
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -22,7 +22,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
     /**
      * Register the custom GraphQL settings with WPGraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function register()
@@ -36,7 +36,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
     /**
      * Add custom GraphQL settings to WPGraphQL with hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()
@@ -47,7 +47,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
     /**
      * Filter the settings through GraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $settings
      * @return void
      */
@@ -67,7 +67,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
     /**
      * Resolve the parameters for the filtered settings
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $fields
      * @param array $settings
      * @param boolean $group

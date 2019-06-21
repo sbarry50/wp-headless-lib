@@ -3,7 +3,7 @@
  * Class for managing interaction with WPGraphQL and GraphQL-PHP
  *
  * @package    SB2Media\Headless\GraphQL
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -23,7 +23,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * GraphQL core scalars
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var array
      */
     public $core_scalars = [
@@ -40,7 +40,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Functionality Configuration
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var array $config
      */
     public $config;
@@ -48,7 +48,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Constructor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      */
     public function __construct(array $config)
@@ -60,7 +60,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Register the extended functionality with WPGraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     abstract public function register();
@@ -68,7 +68,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Add extended functionality to WPGraphQL through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     abstract public function add();
@@ -76,7 +76,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Process the configuration for GraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      * @return void
      */
@@ -112,7 +112,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Resolve the GraphQL type from the setting/meta-field configuration
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string|array $type
      * @return mixed
      */
@@ -134,7 +134,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Resolve the value of the field for GraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      * @param mixed $value
      * @return void
@@ -187,7 +187,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Check if type is a core scalar
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $type
      * @return boolean
      */
@@ -199,7 +199,7 @@ abstract class GraphQLManager implements WordPressAPIContract
     /**
      * Resolve core scalar types
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $type
      * @param mixed $value
      * @return void

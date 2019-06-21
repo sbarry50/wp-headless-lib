@@ -3,7 +3,7 @@
  * Abstract class for interacting with WordPress' various API's to extend its base functionality
  *
  * @package    SB2Media\Headless\WordPress
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -19,7 +19,7 @@ abstract class WordPress implements WordPressAPIContract
     /**
      * Functionality Configuration
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var array $config
      */
     public $config;
@@ -27,7 +27,7 @@ abstract class WordPress implements WordPressAPIContract
     /**
      * Constructor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      */
     public function __construct(array $config)
@@ -39,7 +39,7 @@ abstract class WordPress implements WordPressAPIContract
     /**
      * Register the functionality through one of WordPress' API's
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return this
      */
     abstract public function register();
@@ -47,7 +47,7 @@ abstract class WordPress implements WordPressAPIContract
     /**
      * Add extended functionality to WordPress through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     abstract public function add();
@@ -55,7 +55,7 @@ abstract class WordPress implements WordPressAPIContract
     /**
      * Callback function to route data to appropriate template for display
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param String $view    View template to call
      * @param Array  $config  Functionality configuration
      * @return void

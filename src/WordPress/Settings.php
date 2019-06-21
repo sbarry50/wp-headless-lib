@@ -3,7 +3,7 @@
  * Class for registering WordPress settings
  *
  * @package    SB2Media\Headless\WordPress
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -19,7 +19,7 @@ class Settings extends WordPress implements WordPressAPIContract
     /**
      * Wordpress Settings API option group name
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $option_group;
@@ -33,7 +33,7 @@ class Settings extends WordPress implements WordPressAPIContract
     /**
      * Register the settings with WordPress
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function register()
@@ -51,7 +51,7 @@ class Settings extends WordPress implements WordPressAPIContract
     /**
      * Add settings to WordPress through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()
@@ -64,7 +64,7 @@ class Settings extends WordPress implements WordPressAPIContract
     /**
      * Add the settings fields with WordPress
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function addSettingsFields()
@@ -89,7 +89,7 @@ class Settings extends WordPress implements WordPressAPIContract
     /**
      * Resolve the setting args to be passed in register_setting
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param Array $config
      * @return void
      */

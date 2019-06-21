@@ -3,7 +3,7 @@
  * Class that enqueues stylesheets and scripts with WordPress.
  *
  * @package    SB2Media\Headless\Enqueue
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -18,7 +18,7 @@ class EnqueueManager
     /**
      * Collection of stylesheets
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var array
      */
     public $stylesheets = [];
@@ -26,7 +26,7 @@ class EnqueueManager
     /**
      * Collection of scripts
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var array
      */
     public $scripts = [];
@@ -34,7 +34,7 @@ class EnqueueManager
     /**
      * Constructor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config
      */
     public function __construct(array $config)
@@ -46,7 +46,7 @@ class EnqueueManager
     /**
      * Enqueue the collection of stylesheets and scripts into WordPress. Callback function to hook into 'wp_enqueue_scripts' and 'admin_enqueue_scripts'.
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @return null
      */
     public function enqueue()

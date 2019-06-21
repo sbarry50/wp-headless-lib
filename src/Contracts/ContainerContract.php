@@ -16,7 +16,7 @@ interface ContainerContract
     /**
      * Get instance of Container
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string  $id  The unique identifier for the parameter or object
      * @return Container
      */
@@ -25,7 +25,7 @@ interface ContainerContract
     /**
      * Set instance of Container
      *
-     * @since    1.0.0
+     * @since    0.1.0
      * @param    string    $id    The unique identifier for the parameter or object
      * @param    mixed     $value
      * @return   void
@@ -51,7 +51,7 @@ interface ContainerContract
     /**
      * Checks if a parameter or an object is set.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      *
      * @param  string $id    The unique identifier for the parameter or object
      * @return bool
@@ -61,7 +61,7 @@ interface ContainerContract
     /**
      * Set the collection
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $collection_key
      * @param array $collection_id
      * @return void
@@ -71,7 +71,7 @@ interface ContainerContract
     /**
      * Get the config keys
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $key
      * @return void
      */

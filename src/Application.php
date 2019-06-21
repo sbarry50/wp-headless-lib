@@ -3,7 +3,7 @@
  * The core plugin class.
  *
  * @package    SB2Media\Headless
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -23,7 +23,7 @@ class Application extends Container
     /**
      * Container instance
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var Container
      */
     public $app;
@@ -31,7 +31,7 @@ class Application extends Container
     /**
      * The plugin basename
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $basename;
@@ -39,7 +39,7 @@ class Application extends Container
     /**
      * The plugin id
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $id;
@@ -47,7 +47,7 @@ class Application extends Container
     /**
      * The plugin root directory path
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $path;
@@ -55,7 +55,7 @@ class Application extends Container
     /**
      * The plugin name
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $name;
@@ -63,7 +63,7 @@ class Application extends Container
     /**
      * The plugin root
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $root;
@@ -71,7 +71,7 @@ class Application extends Container
     /**
      * The plugin text domain
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $text_domain;
@@ -79,7 +79,7 @@ class Application extends Container
     /**
      * The plugin root directory url
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $url;
@@ -87,7 +87,7 @@ class Application extends Container
     /**
      * The plugin version
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var string
      */
     public $version;
@@ -95,7 +95,7 @@ class Application extends Container
     /**
      * Constructor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $root  The plugin root file
      */
     public function __construct(string $root)
@@ -114,7 +114,7 @@ class Application extends Container
     /**
      * Boot the plugin. Executes all initial tasks necessary to prepare the plugin to perform its objective(s).
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @return this    Instance of this object.
      */
     public function boot()
@@ -137,7 +137,7 @@ class Application extends Container
     /**
      * Register all the configurations
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function registerConfigs()
@@ -159,7 +159,7 @@ class Application extends Container
     /**
      * Register the providers with the Container
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function registerProviders()
@@ -181,7 +181,7 @@ class Application extends Container
     /**
      * Register the class in the container
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $id
      * @param array $config
      * @return void
@@ -218,7 +218,7 @@ class Application extends Container
     /**
      * Resolve the dependency from the configuration file
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array    $dependency
      * @return array
      */
@@ -236,7 +236,7 @@ class Application extends Container
     /**
      * Get the (sub)directory path of the plugin or full file path.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $subdir    Optionally, the name of a subdirectory
      * @param string $file      Optionally, the name of a file
      * @return string
@@ -257,7 +257,7 @@ class Application extends Container
     /**
      * Get the (sub)directory url of the plugin or full file path url.
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $subdir    Optionally, the name of a subdirectory
      * @param string $file      Optionally, the name of a file
      * @return string
@@ -278,7 +278,7 @@ class Application extends Container
     /**
      * Filter out unwanted files from the config directory
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param array $config_dir
      * @return array
      */

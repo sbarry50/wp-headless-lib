@@ -3,7 +3,7 @@
  * Class that loads views, files and assets.
  *
  * @package    SB2Media\Headless\File
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -21,7 +21,7 @@ class Loader implements LoaderContract
     /**
      * Loads a file
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string    $file     The direct path and filename of the file to be loaded
      * @return string              The contents of the file
      */
@@ -35,7 +35,7 @@ class Loader implements LoaderContract
     /**
      * Load a view file or asset that requires output buffering
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string    $file     The direct path and filename of the file to be loaded
      * @param  mixed     $args     (Opt) Arguments to pass to the file
      * @return string              The contents of the file
@@ -54,7 +54,7 @@ class Loader implements LoaderContract
     /**
      * Check if the file is valid. Throws error exceptions if not.
      *
-     * @since  1.0.0
+     * @since  0.1.0
      * @param  string    $file    The file
      * @return bool
      * @throws InvalidArgumentException

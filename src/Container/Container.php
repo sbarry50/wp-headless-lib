@@ -3,7 +3,7 @@
  * Dependency injection container class which extends Pimple
  *
  * @package    SB2Media\Headless\Container
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -23,7 +23,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Instance of Container
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var   Container
      */
     public static $instance;
@@ -31,7 +31,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Collection of config keys
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @var   array
      */
     public $collection = [];
@@ -39,7 +39,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Contructor
      *
-     * @since 1.0.0
+     * @since 0.1.0
      */
     public function __construct()
     {
@@ -49,7 +49,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Get instance of Container
      *
-     * @since    1.0.0
+     * @since    0.1.0
      * @param    string    $id    The unique identifier for the parameter or object
      * @return   Container
      */
@@ -61,7 +61,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Set instance of Container
      *
-     * @since    1.0.0
+     * @since    0.1.0
      * @param    string    $id          The unique identifier for the parameter or object
      * @param    mixed     $value
      */
@@ -73,7 +73,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Get item from container
      *
-     * @since    1.0.0
+     * @since    0.1.0
      * @param    string    $id          The unique identifier for the parameter or object
      * @return   mixed
      */
@@ -85,7 +85,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Set item in container
      *
-     * @since    1.0.0
+     * @since    0.1.0
      * @param    string    $id          The unique identifier for the parameter or object
      * @param    mixed     $value
      * @return   void
@@ -98,7 +98,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Checks if a parameter or an object is set.
      *
-     * @since    1.0.0
+     * @since    0.1.0
      * @param    string    $plugin_id   The unique identifier for the plugin
      * @param    string    $id          The unique identifier for the parameter or object
      * @return   bool
@@ -111,7 +111,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Set the collection
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @param   string  $collection_key
      * @param   array   $collection_id
      * @return  void
@@ -124,7 +124,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Get the config keys
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @param   string  $collection_key
      * @return  void
      */
@@ -136,7 +136,7 @@ class Container extends Pimple implements ContainerContract
     /**
      * Build and return the full unique identifier for the parameter or object
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @param   string    $id    The unique identifier of the object or parameter
      * @return  string
      */

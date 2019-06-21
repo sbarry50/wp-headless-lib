@@ -3,7 +3,7 @@
  * Class for registering custom meta fields with WPGraphQL
  *
  * @package    SB2Media\Headless\GraphQL
- * @since      1.0.0
+ * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
  * @license    GNU General Public License 2.0+
@@ -21,7 +21,7 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
     /**
      * Register the custom GraphQL meta fields with WPGraphQL
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function register()
@@ -55,7 +55,7 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
     /**
      * Add custom meta fields to WPGraphQL through hook API
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @return void
      */
     public function add()
@@ -66,7 +66,7 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
     /**
      * Retrieve all the meta fields associated with a post type
      *
-     * @since 1.0.0
+     * @since 0.1.0
      * @param string $post_type
      * @return void
      */
