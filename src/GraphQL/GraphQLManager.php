@@ -86,7 +86,7 @@ abstract class GraphQLManager implements WordPressAPIContract
 
         foreach ($config as $cfg) {
             if ('image-upload' === $cfg['callback']) {
-                $cfg = app('images')->imageUploadFilter($cfg);
+                $cfg = app('media')->imageUploadFilter($cfg);
                 $cfg['graphql']['type'] = 'MediaDetails';
                 $cfg['graphql']['resolver'] = 'media-details-graphql';
             }

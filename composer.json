@@ -31,7 +31,6 @@
     "illuminate/view": "^5.8",
     "league/flysystem": "^1.0",
     "pimple/pimple": "~3.0",
-    "wp-graphql/wp-graphql": "^0.3.4",
     "downshiftorg/wp-event-emitter": "^6.0",
     "vlucas/phpdotenv": "^3.4"
   },

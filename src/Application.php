@@ -12,6 +12,7 @@
 namespace SB2Media\Headless;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use SB2Media\Headless\File\Loader;
 use SB2Media\Headless\Config\Config;
 use SB2Media\Headless\Container\Container;
@@ -128,10 +129,73 @@ class Application extends Container
 
         $this->registerConfigs();
         $this->registerProviders();
-        app('events')->addAction('admin_enqueue_scripts', [app('admin-enqueue'), 'enqueue']);
-        // app('events')->addAction('wp_enqueue_scripts', [app('enqueue'), 'enqueue']);
+        $this->enqueueScripts();
 
         return $this;
+    }
+
+    /**
+     * Get the (sub)directory path of the plugin or full file path.
+     *
+     * @since 0.1.0
+     * @param string $subdir    Optionally, the name of a subdirectory
+     * @param string $file      Optionally, the name of a file
+     * @return string
+     */
+    public function path(string $subdir = '', string $file = '')
+    {
+        if (empty($subdir) && empty($file)) {
+            return trailingslashit($this->path);
+        }
+    
+        if (!empty($subdir) && empty($file)) {
+            return trailingslashit($this->path . $subdir);
+        }
+        
+        return trailingslashit($this->path . $subdir) . $file;
+    }
+
+    /**
+     * Get the (sub)directory url of the plugin or full file path url.
+     *
+     * @since 0.1.0
+     * @param string $subdir    Optionally, the name of a subdirectory
+     * @param string $file      Optionally, the name of a file
+     * @return string
+     */
+    public function url(string $subdir = '', string $file = '')
+    {
+        if (empty($subdir) && empty($file)) {
+            return trailingslashit($this->url);
+        }
+    
+        if (!empty($subdir) && empty($file)) {
+            return trailingslashit($this->url . $subdir);
+        }
+        
+        return trailingslashit($this->url . $subdir) . $file;
+    }
+
+    /**
+     * Get the (sub)directory path of the view.
+     *
+     * @since 0.1.1
+     * @param string $path      Optionally, the relative path to the file from the views directory
+     * @return string
+     */
+    public function view(string $path = '')
+    {
+        $views_dir = $this->path('resources/views');
+
+        if (empty($path)) {
+            return $views_dir;
+        }
+
+        if (!Str::endsWith($path, '.php')) {
+            $path = $path . '.php';
+        }
+
+        return $views_dir . $path;
     }
 
     /**
@@ -140,7 +204,7 @@ class Application extends Container
      * @since 0.1.0
      * @return void
      */
-    public function registerConfigs()
+    protected function registerConfigs()
     {
         $config_dir = scandir(path('config'));
         $config_files = $this->filterConfigDir($config_dir);
@@ -150,7 +214,7 @@ class Application extends Container
 
         foreach ($config_files as $config_id => $config_file) {
             $config = [];
-            $config_values = Loader::loadFile(path('config') . $config_file);
+            $config_values = Loader::loadFile(path("config/{$config_file}"));
             $config[$config_id] = $config_values;
             config($config);
         }
@@ -162,7 +226,7 @@ class Application extends Container
      * @since 0.1.0
      * @return void
      */
-    public function registerProviders()
+    protected function registerProviders()
     {
         $providers = config('providers');
         $keys = [];
@@ -179,6 +243,18 @@ class Application extends Container
     }
 
     /**
+     * Enqueue the application scripts and stylesheets with Wordpress
+     *
+     * @since 0.1.0
+     * @return void
+     */
+    protected function enqueueScripts()
+    {
+        app('events')->addAction('admin_enqueue_scripts', [app('admin-enqueue'), 'enqueue']);
+        app('events')->addAction('wp_enqueue_scripts', [app('enqueue'), 'enqueue']);
+    }
+
+    /**
      * Register the class in the container
      *
      * @since 0.1.0
@@ -186,7 +262,7 @@ class Application extends Container
      * @param array $config
      * @return void
      */
-    public function instantiate(string $id, array $config)
+    protected function instantiate(string $id, array $config)
     {
         $args = [];
 
@@ -213,66 +289,6 @@ class Application extends Container
         } else {
             $this->set($id, new $config['class']());
         }
-    }
-
-    /**
-     * Resolve the dependency from the configuration file
-     *
-     * @since 0.1.0
-     * @param array    $dependency
-     * @return array
-     */
-    protected function resolve(string $type, string $dependency)
-    {
-        if ('config' === $type) {
-            return config($dependency);
-        }
-        
-        if ('dependencies' === $type) {
-            return app($dependency);
-        }
-    }
-
-    /**
-     * Get the (sub)directory path of the plugin or full file path.
-     *
-     * @since 0.1.0
-     * @param string $subdir    Optionally, the name of a subdirectory
-     * @param string $file      Optionally, the name of a file
-     * @return string
-     */
-    public function path($subdir = '', $file = '')
-    {
-        if (empty($subdir) && empty($file)) {
-            return trailingslashit($this->path);
-        }
-    
-        if (!empty($subdir) && empty($file)) {
-            return trailingslashit($this->path . $subdir);
-        }
-        
-        return trailingslashit($this->path . $subdir) . $file;
-    }
-
-    /**
-     * Get the (sub)directory url of the plugin or full file path url.
-     *
-     * @since 0.1.0
-     * @param string $subdir    Optionally, the name of a subdirectory
-     * @param string $file      Optionally, the name of a file
-     * @return string
-     */
-    public function url($subdir = '', $file = '')
-    {
-        if (empty($subdir) && empty($file)) {
-            return trailingslashit($this->url);
-        }
-    
-        if (!empty($subdir) && empty($file)) {
-            return trailingslashit($this->url . $subdir);
-        }
-        
-        return trailingslashit($this->url . $subdir) . $file;
     }
 
     /**

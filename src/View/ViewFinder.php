@@ -14,8 +14,7 @@ namespace SB2Media\Headless\View;
 use InvalidArgumentException;
 use SB2Media\Headless\File\Loader;
 use function SB2Media\Headless\app;
-use function SB2Media\Headless\url;
-use function SB2Media\Headless\path;
+use function SB2Media\Headless\view;
 
 class ViewFinder
 {
@@ -31,18 +30,13 @@ class ViewFinder
     public function render(string $filename, array $config = [], bool $field = false)
     {
         if ('image-upload' == $filename) {
-            $config = app('images')->imageUploadFilter($config);
+            $config = app('media')->imageUploadFilter($config);
         }
 
-        $locations = ['plugin', 'framework'];
+        $file = $this->viewFilePath($filename, $field);
 
-        foreach ($locations as $location) {
-            $file = $this->viewFilePath($filename, $field, $location);
-
-            if (file_exists($file) && is_readable($file)) {
-                echo Loader::loadOutputFile($file, $config);
-                break;
-            }
+        if (file_exists($file) && is_readable($file)) {
+            echo Loader::loadOutputFile($file, $config);
         }
     }
 
@@ -52,21 +46,10 @@ class ViewFinder
      * @since 0.1.0
      * @param string    $filename
      * @param boolean   $field
-     * @param string    $location   Whether to check in plugin or framework view folder. Possible values 'plugin' or 'framework'
      * @return string
      */
-    private function viewFilePath(string $filename, bool $field, string $location)
+    private function viewFilePath(string $filename, bool $field)
     {
-        if ('plugin' === $location) {
-            $path = path('views');
-        } elseif ('framework' === $location) {
-            $path = dirname(dirname(dirname(__FILE__))) . '/views/';
-        } else {
-            throw new InvalidArgumentException(__("'{$location}' is not a valid location argument. Allowed values are 'plugin' or 'framework'", app()->text_domain));
-        }
-
-        $path .= $field ? 'fields/' : '';
-        
-        return $path . $filename . '.php';
+        return $field ? view("fields/{$filename}") : view($filename);
     }
 }

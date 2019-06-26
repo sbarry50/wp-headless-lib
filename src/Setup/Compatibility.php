@@ -13,6 +13,7 @@ namespace SB2Media\Headless\Setup;
 
 use SB2Media\Headless\File\Loader;
 use function SB2Media\Headless\app;
+use function SB2Media\Headless\view;
 
 class Compatibility
 {
@@ -123,7 +124,7 @@ class Compatibility
      */
     public function renderNotice()
     {
-        $notice = app()->path('views') . 'errors/compatibility-notice.php';
+        $notice = view('errors/compatibility-notice.php');
         printf(Loader::loadOutputFile($notice));
     }
 

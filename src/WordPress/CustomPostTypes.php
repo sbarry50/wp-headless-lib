@@ -41,4 +41,20 @@ class CustomPostTypes extends WordPress implements WordPressAPIContract
     {
         app('events')->addAction('init', array($this, 'register'));
     }
+
+    /**
+     * Retrieve all the post ID's for a custom post type
+     *
+     * @since 0.1.0
+     * @param string $post_type
+     * @return array
+     */
+    public static function getPostIds(string $post_type)
+    {
+        return get_posts([
+            'fields'         => 'ids',
+            'posts_per_page' => -1,
+            'post_type'      => $post_type
+        ]);
+    }
 }

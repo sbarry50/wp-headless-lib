@@ -116,9 +116,9 @@ class Container extends Pimple implements ContainerContract
      * @param   array   $collection_id
      * @return  void
      */
-    public function setCollection(string $collection_key, array $collection_id)
+    public function setCollection(string $collection_key, array $collection_ids)
     {
-        $this->collection[$collection_key] = $collection_id;
+        $this->collection[$collection_key] = $collection_ids;
     }
 
     /**

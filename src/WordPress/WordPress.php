@@ -63,5 +63,9 @@ abstract class WordPress implements WordPressAPIContract
     protected function callback(string $view, array $config, bool $field = false)
     {
         app('views')->render($view, $config, $field);
+        
+        if (isset($config['args']['description']) && !empty($config['args']['description'])) {
+            app('views')->render('description', $config, $field);
+        }
     }
 }

@@ -12,6 +12,7 @@
 namespace SB2Media\Headless;
 
 use Exception;
+use Illuminate\Support\Str;
 use SB2Media\Headless\Application;
 use SB2Media\Headless\File\Loader;
 
@@ -101,14 +102,28 @@ function configPath(string $filename)
 }
 
 /**
- * Get the (sub)directory path of the plugin.
+ * Get the path of the plugin, subdirectory and/or file.
  *
  * @since 0.1.0
- * @param string $subdir    Optionally, the name of a subdirectory
+ * @param string $path      Optionally, the relative path to a subdirectory and/or file
  * @return string
  */
-function path($subdir = '', $file = '')
+function path($path = '')
 {
+    if (!empty($path)) {
+        $pathinfo = pathinfo($path);
+        $subdir = $pathinfo['dirname'] !== '.' ? $pathinfo['dirname'] : '';
+        $file = $pathinfo['basename'];
+
+        if (!array_key_exists('extension', $pathinfo)) {
+            $subdir = $pathinfo['dirname'] !== '.' ? $pathinfo['dirname'] . '/' . $pathinfo['basename'] : $pathinfo['basename'];
+            $file = '';
+        }
+    } else {
+        $subdir = '';
+        $file = '';
+    }
+
     if (empty($subdir) && empty($file)) {
         return app()->path();
     }
@@ -121,14 +136,28 @@ function path($subdir = '', $file = '')
 }
 
 /**
- * Get the (sub)directory url of the plugin.
+ * Get the url of the plugin, subdirectory or file.
  *
  * @since 0.1.0
- * @param string $subdir    Optionally, the name of a subdirectory
+ * @param string $path      Optionally, the relative path to a subdirectory and/or file
  * @return string
  */
-function url($subdir = '', $file = '')
+function url($path = '')
 {
+    if (!empty($path)) {
+        $pathinfo = pathinfo($path);
+        $subdir = $pathinfo['dirname'] !== '.' ? $pathinfo['dirname'] : '';
+        $file = $pathinfo['basename'];
+
+        if (!array_key_exists('extension', $pathinfo)) {
+            $subdir = $pathinfo['dirname'] !== '.' ? $pathinfo['dirname'] . '/' . $pathinfo['basename'] : $pathinfo['basename'];
+            $file = '';
+        }
+    } else {
+        $subdir = '';
+        $file = '';
+    }
+    
     if (empty($subdir) && empty($file)) {
         return app()->url();
     }
@@ -139,6 +168,20 @@ function url($subdir = '', $file = '')
     
     return app()->url($subdir, $file);
 }
+
+/**
+ * Get the path of the plugin, subdirectory or file.
+ *
+ * @since 0.1.0
+ * @param string $subdir    Optionally, the name of a subdirectory
+ * @param string $file      Optionally, the name of a file
+ * @return string
+ */
+function view($path = '')
+{
+    return app()->view($path);
+}
+
 
 /**
  * Get plugin data from the plugin's bootstrap file header comment using WP core's get_file_data function
@@ -163,6 +206,58 @@ function headerData(string $id, string $plugin_root_file)
         '_sitewide'   => 'Site Wide Only',
     );
     return get_file_data($plugin_root_file, $default_headers)[$id];
+}
+
+/**
+ * CURL API calls
+ *
+ * @since 0.1.0
+ * @param string $method
+ * @param string $url
+ * @param mixed $data
+ * @return void
+ *
+ * @link https://www.weichieprojects.com/blog/curl-api-calls-with-php/
+ */
+function callAPI($method, $url, $data)
+{
+    $curl = curl_init();
+
+    switch ($method) {
+        case "POST":
+            curl_setopt($curl, CURLOPT_POST, 1);
+            if ($data) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            break;
+        case "PUT":
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+            if ($data) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            break;
+        default:
+            if ($data) {
+                $url = sprintf("%s?%s", $url, http_build_query($data));
+            }
+    }
+
+    // OPTIONS:
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'APIKEY: 111111111111111111111',
+        'Content-Type: application/json',
+    ));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
+    // EXECUTE:
+    $result = curl_exec($curl);
+    if (!$result) {
+        die("Connection Failure");
+    }
+    curl_close($curl);
+    return $result;
 }
 
 /**

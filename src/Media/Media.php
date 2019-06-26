@@ -9,8 +9,9 @@
  * @license    GNU General Public License 2.0+
  */
 
-namespace SB2Media\Headless\WordPress;
+namespace SB2Media\Headless\Media;
 
+use SB2Media\Headless\Wordpress\Wordpress;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use function SB2Media\Headless\app;
 use function SB2Media\Headless\url;
