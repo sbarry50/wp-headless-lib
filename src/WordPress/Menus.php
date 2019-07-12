@@ -25,8 +25,8 @@ class Menus extends WordPress implements WordPressAPIContract
     public function register()
     {
         foreach ($this->config as $config) {
-            $callback = !empty($config['callback']) ? $config['callback'] : function () use ($config) {
-                $this->callback('menu-page', $config);
+            $callback = function ($args) use ($config) {
+                $this->callback($config);
             };
 
             add_menu_page(

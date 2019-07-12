@@ -180,22 +180,22 @@ class Application extends Container
      * Get the (sub)directory path of the view.
      *
      * @since 0.1.1
-     * @param string $path      Optionally, the relative path to the file from the views directory
+     * @param string $relative_path      Optionally, the relative path to the file from the views directory
      * @return string
      */
-    public function view(string $path = '')
+    public function view(string $relative_path = '')
     {
         $views_dir = $this->path('resources/views');
 
-        if (empty($path)) {
+        if (empty($relative_path)) {
             return $views_dir;
         }
 
-        if (!Str::endsWith($path, '.php')) {
-            $path = $path . '.php';
+        if (!Str::endsWith($relative_path, '.php')) {
+            $relative_path = $relative_path . '.php';
         }
 
-        return $views_dir . $path;
+        return $views_dir . $relative_path;
     }
 
     /**

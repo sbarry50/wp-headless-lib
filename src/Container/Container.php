@@ -112,25 +112,48 @@ class Container extends Pimple implements ContainerContract
      * Set the collection
      *
      * @since   0.1.0
-     * @param   string  $collection_key
-     * @param   array   $collection_id
+     * @param   string  $key
+     * @param   array   $items
      * @return  void
      */
-    public function setCollection(string $collection_key, array $collection_ids)
+    public function setCollection(string $key, array $items)
     {
-        $this->collection[$collection_key] = $collection_ids;
+        $this->collection[$key] = $items;
+    }
+
+    /**
+     * Add to the collection
+     *
+     * @since   0.1.0
+     * @param   string  $key
+     * @param   mixed   $items
+     * @return  void
+     */
+    public function addToCollection(string $key, $items)
+    {
+        if (is_string($items)) {
+            array_push($this->collection[$key], $items);
+            
+            return;
+        }
+
+        if (is_array($items)) {
+            foreach ($items as $item) {
+                array_push($this->collection[$key], $item);
+            }
+        }
     }
 
     /**
      * Get the config keys
      *
      * @since   0.1.0
-     * @param   string  $collection_key
+     * @param   string  $key
      * @return  void
      */
-    public function getCollection(string $collection_key)
+    public function getCollection(string $key)
     {
-        return $this->collection[$collection_key];
+        return $this->collection[$key];
     }
 
     /**

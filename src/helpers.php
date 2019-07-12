@@ -15,6 +15,7 @@ use Exception;
 use Illuminate\Support\Str;
 use SB2Media\Headless\Application;
 use SB2Media\Headless\File\Loader;
+use SB2Media\Headless\File\FileSystem;
 
 /**
  * Launch the application
@@ -26,6 +27,8 @@ use SB2Media\Headless\File\Loader;
 function launch(string $plugin_root_file)
 {
     $app = app($plugin_root_file);
+    $files = new FileSystem();
+    $files->getRelativeFilePath('test-file', view());
     $app->boot();
 }
 

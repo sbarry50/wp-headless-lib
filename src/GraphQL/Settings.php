@@ -27,10 +27,31 @@ class Settings extends GraphQLManager implements WordPressAPIContract
      */
     public function register()
     {
-        $filtered_settings = [];
-        $graphql_config = $this->graphqlConfig($this->config);
+        app('events')->addFilter('graphql_settings_fields', function ($fields) {
+            return $this->resolveFilteredSettings($fields, $this->config);
+        });
 
-        $this->filterSettings($graphql_config);
+        $page_slugs = [];
+        foreach ($this->config as $config) {
+            if (!in_array($config['page'], $page_slugs)) {
+                $page_slugs[] = $config['page'];
+            }
+        }
+
+        foreach ($page_slugs as $page_slug) {
+            $page_config = [];
+            foreach ($this->config as $config) {
+                if ($config['page'] === $page_slug) {
+                    $page_config[] = $config;
+                }
+            }
+
+            $camel_case_option_group = Str::camel($page_slug);
+
+            app('events')->addFilter("graphql_{$camel_case_option_group}Settings_fields", function ($fields) use ($page_config) {
+                return $this->resolveFilteredSettings($fields, $page_config, true);
+            });
+        }
     }
 
     /**
@@ -45,26 +66,6 @@ class Settings extends GraphQLManager implements WordPressAPIContract
     }
 
     /**
-     * Filter the settings through GraphQL
-     *
-     * @since 0.1.0
-     * @param array $settings
-     * @return void
-     */
-    private function filterSettings($settings)
-    {
-        $camel_case_option_group = Str::camel(app('settings')->option_group);
-
-        app('events')->addFilter('graphql_settings_fields', function ($fields) use ($settings) {
-            return $this->resolveFilteredSettings($fields, $settings);
-        });
-    
-        app('events')->addFilter("graphql_{$camel_case_option_group}Settings_fields", function ($fields) use ($settings) {
-            return $this->resolveFilteredSettings($fields, $settings, true);
-        });
-    }
-
-    /**
      * Resolve the parameters for the filtered settings
      *
      * @since 0.1.0
@@ -76,12 +77,14 @@ class Settings extends GraphQLManager implements WordPressAPIContract
     private function resolveFilteredSettings($fields, $settings, $group = false)
     {
         foreach ($settings as $setting) {
+            $setting = $this->graphqlConfig($setting);
+
             if ($group) {
                 $key = str_replace('_', '', $setting['id']);
                 $name = Str::camel($setting['id']);
             } else {
-                $key = str_replace('_', '', app('settings')->option_group) . 'settings' . str_replace('_', '', $setting['id']);
-                $name = Str::camel(str_replace('_', '', ucwords(app('settings')->option_group, '_')) . 'Settings' . ucwords($setting['id'], '_'));
+                $key = str_replace('-', '', $setting['page']) . 'settings' . str_replace('_', '', $setting['id']);
+                $name = Str::camel(str_replace('_', '', ucwords($setting['page'], '_')) . 'Settings' . ucwords($setting['id'], '_'));
             }
 
             $type = $this->resolveType($setting['type']);
@@ -96,7 +99,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
                 'name' => $name,
             ];
         }
-    
+
         return $fields;
     }
 }

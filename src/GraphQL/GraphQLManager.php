@@ -84,27 +84,19 @@ abstract class GraphQLManager implements WordPressAPIContract
     {
         $graphql_config = [];
 
-        foreach ($config as $cfg) {
-            if ('image-upload' === $cfg['callback']) {
-                $cfg = app('media')->imageUploadFilter($cfg);
-                $cfg['graphql']['type'] = 'MediaDetails';
-                $cfg['graphql']['resolver'] = 'media-details-graphql';
-            }
-
-            if ('multi-select' === $cfg['callback'] || 'multi-checkbox' === $cfg['callback']) {
-                $cfg['graphql']['type'] = ['list_of' => 'String'];
-            }
-
-            $graphql_config[] = [
-                'id'            => isset($cfg['id']) ? $cfg['id'] : '',
-                'description'   => isset($cfg['description']) ? $cfg['description'] : '',
-                'image'         => ('image-upload' === $cfg['callback']) ? true : false,
-                'type'          => isset($cfg['graphql']['type']) ? $cfg['graphql']['type'] : 'String',
-                'resolver'      => isset($cfg['graphql']['resolver']) ? $cfg['graphql']['resolver'] : '',
-                'default_value' => isset($cfg['graphql']['default_value']) ? $cfg['graphql']['default_value'] : null,
-                'args'          => isset($cfg['args']) ? $cfg['args'] : '',
-            ];
+        if ('multi-select.php' === $config['callback'] || 'multi-checkbox.php' === $config['callback']) {
+            $config['graphql']['type'] = ['list_of' => 'String'];
         }
+
+        $graphql_config = [
+            'id'            => isset($config['id']) ? $config['id'] : '',
+            'description'   => isset($config['description']) ? $config['description'] : '',
+            'page'          => isset($config['page']) ? $config['page'] : '',
+            'type'          => isset($config['graphql']['type']) ? $config['graphql']['type'] : 'String',
+            'resolver'      => isset($config['graphql']['resolver']) ? $config['graphql']['resolver'] : '',
+            'default_value' => isset($config['graphql']['default_value']) ? $config['graphql']['default_value'] : null,
+            'args'          => isset($config['args']) ? $config['args'] : '',
+        ];
 
         return $graphql_config;
     }
@@ -139,7 +131,7 @@ abstract class GraphQLManager implements WordPressAPIContract
      * @param mixed $value
      * @return void
      */
-    protected function resolveField(array $config, $value)
+    protected function resolveField(array $config, $value, int $post_id = null)
     {
         $type = $config['type'];
 
@@ -158,10 +150,10 @@ abstract class GraphQLManager implements WordPressAPIContract
 
             if (isset($config['resolver'])) {
                 if (is_null($config['default_value'])) {
-                    return app($config['resolver'])->resolve($config, $value);
+                    return app($config['resolver'])->resolve($config, $value, $post_id);
                 }
                 
-                return !empty($value) ? app($config['resolver'])->resolve($config, $value) : $config['default_value'];
+                return !empty($value) ? app($config['resolver'])->resolve($config, $value, $post_id) : $config['default_value'];
             }
         }
 
@@ -176,10 +168,10 @@ abstract class GraphQLManager implements WordPressAPIContract
 
             if (is_string($type['list_of']) && isset($config['resolver'])) {
                 if (is_null($config['default_value'])) {
-                    return (array) app($config['resolver'])->resolve($config, $value);
+                    return (array) app($config['resolver'])->resolve($config, $value, $post_id);
                 }
                 
-                return !empty($value) ? (array) app($config['resolver'])->resolve($config, $value) : (array) $config['default_value'];
+                return !empty($value) ? (array) app($config['resolver'])->resolve($config, $value, $post_id) : (array) $config['default_value'];
             }
         }
     }

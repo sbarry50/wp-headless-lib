@@ -11,6 +11,7 @@
 
 namespace SB2Media\Headless\GraphQL;
 
+use Illuminate\Support\Str;
 use SB2Media\Headless\GraphQL\GraphQLManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use function SB2Media\Headless\app;
@@ -27,24 +28,23 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
     public function register()
     {
         $post_types = \WPGraphQL::$allowed_post_types;
-        $graphql_config = $this->graphqlConfig($this->config);
 
         if (! empty($post_types) && is_array($post_types)) {
             foreach ($post_types as $post_type) {
                 $post_type_object = get_post_type_object($post_type);
 
                 $meta_fields = $this->metaFieldsInPostType($post_type);
-                $meta_fields = $this->graphqlConfig($meta_fields);
-
+                
                 foreach ($meta_fields as $meta_field) {
+                    $meta_field = $this->graphqlConfig($meta_field);
                     $type = $this->resolveType($meta_field['type']);
-
-                    register_graphql_field($post_type_object->graphql_single_name, $meta_field['id'], [
+                    
+                    register_graphql_field($post_type_object->graphql_single_name, Str::camel($meta_field['id']), [
                         'type' => $type,
                         'description' => $meta_field['description'],
                         'resolve' => function ($post) use ($meta_field, $type) {
                             $value = get_post_meta($post->ID, $meta_field['id'], true);
-                            return $this->resolveField($meta_field, $value);
+                            return $this->resolveField($meta_field, $value, $post->ID);
                         }
                     ]);
                 }

@@ -53,13 +53,15 @@ class EnqueueManager
     {
         if (! empty($this->stylesheets)) {
             foreach ($this->stylesheets as $stylesheet) {
-                wp_enqueue_style(
-                    $stylesheet['id'],
-                    $stylesheet['src'],
-                    $stylesheet['dependencies'],
-                    $stylesheet['version'],
-                    $stylesheet['media']
-                );
+                if ($this->shouldEnqueue($stylesheet)) {
+                    wp_enqueue_style(
+                        $stylesheet['id'],
+                        $stylesheet['src'],
+                        $stylesheet['dependencies'],
+                        $stylesheet['version'],
+                        $stylesheet['media']
+                    );
+                }
             }
         }
 
@@ -67,29 +69,84 @@ class EnqueueManager
             $media_enqueued = false;
             
             foreach ($this->scripts as $script) {
-                if (array_key_exists('media', $script) && $script['media'] && !$media_enqueued) {
-                    wp_enqueue_media();
-                    $media_enqueued = true;
-                }
-                
-                wp_enqueue_script(
-                    $script['id'],
-                    $script['src'],
-                    $script['dependencies'],
-                    $script['version'],
-                    $script['in_footer']
-                );
+                if ($this->shouldEnqueue($script)) {
+                    if (array_key_exists('media', $script) && $script['media'] && !$media_enqueued) {
+                        wp_enqueue_media();
+                        $media_enqueued = true;
+                    }
 
-                if (array_key_exists('localization', $script) && !empty($script['localization'])) {
-                    $l10n = is_object($script['localization']['values'][0]) ? $script['localization']['values']() : $script['localization']['values'];
-
-                    wp_localize_script(
+                    wp_enqueue_script(
                         $script['id'],
-                        $script['localization']['js_object_name'],
-                        $l10n
+                        $script['src'],
+                        $script['dependencies'],
+                        $script['version'],
+                        $script['in_footer']
                     );
+    
+                    if (array_key_exists('localization', $script) && !empty($script['localization'])) {
+                        $l10n = is_object($script['localization']['values'][0]) ? $script['localization']['values']() : $script['localization']['values'];
+    
+                        wp_localize_script(
+                            $script['id'],
+                            $script['localization']['js_object_name'],
+                            $l10n
+                        );
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Conditionally determine if the file should be enqueued or not.
+     *
+     * @since 0.1.0
+     * @param array $config
+     * @return bool
+     */
+    private function shouldEnqueue(array $config)
+    {
+        if (!isset($config['only_load'])) {
+            return true;
+        }
+
+        $only_load = $config['only_load'];
+
+        $page_slug = isset($_GET['page']) ? $_GET['page'] : '';
+        if (isset($only_load['page_slug']) && !empty($page_slug)) {
+            return $this->checkCurrentPage($page_slug, $only_load['page_slug']);
+        }
+
+        $post_type = get_current_screen()->post_type;
+        if (isset($only_load['post_type']) && !empty($post_type)) {
+            return $this->checkCurrentPage($post_type, $only_load['post_type']);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check the configuration values against the current page
+     *
+     * @since
+     * @param mixed  $config_page    The configuration pages/post types that the asset should be enqueued on
+     * @param string $current_page   The current page or post type
+     * @return bool
+     */
+    private function checkCurrentPage($config_page, $current_page)
+    {
+        if (is_string($config_page) && $config_page === $current_page) {
+            return true;
+        }
+
+        if (is_array($config_page)) {
+            foreach ($config_page as $page) {
+                if ($page === $current_page) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

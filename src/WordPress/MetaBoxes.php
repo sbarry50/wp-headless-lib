@@ -38,8 +38,8 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     public function register()
     {
         foreach ($this->config as $config) {
-            $callback = !empty($config['callback']) ? $config['callback'] : function ($args) use ($config) {
-                $this->callback('meta-box', $config);
+            $callback = function ($args) use ($config) {
+                $this->callback($config);
             };
 
             add_meta_box(
@@ -68,42 +68,6 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     }
 
     /**
-     * Callback function to route data to appropriate template for display
-     *
-     * @since 0.1.0
-     * @param Array $config
-     * @return void
-     */
-    protected function callback(string $view, array $config, bool $field = false)
-    {
-        $post_id = get_the_ID();
-
-        $config['meta_fields'] = $this->getMetaFieldsByMetaBox($config['id']);
-        
-        foreach ($config['meta_fields'] as $key => &$val) {
-            $val['value'] = get_post_meta($post_id, $val['id'], true);
-        }
-
-        wp_nonce_field("${config['id']}_nonce", "${config['id']}_nonce");
-
-        parent::callback($view, $config);
-    }
-
-    /**
-     * Emit filter event to add custom meta box class through WordPress hook system
-     *
-     * @since 0.1.0
-     * @param Array $config
-     * @return void
-     */
-    private function filterClass()
-    {
-        foreach ($this->config as $config) {
-            app('events')->addFilter("postbox_classes_{$config['screen']}_{$config['id']}", [$this, 'addClass']);
-        }
-    }
-
-    /**
      * Add custom-meta-box class to WP's postbox classes array
      *
      * @since 0.1.0
@@ -117,23 +81,59 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     }
 
     /**
+     * Callback function to route data to appropriate template for display
+     *
+     * @since 0.1.0
+     * @param Array $config
+     * @return void
+     */
+    public function callback(array $config)
+    {
+        $post_id = get_the_ID();
+
+        $config['meta_fields'] = $this->getMetaFieldsByMetaBox($config['id']);
+        
+        foreach ($config['meta_fields'] as $key => &$val) {
+            $val['value'] = get_post_meta($post_id, $val['id'], true);
+        }
+
+        wp_nonce_field("${config['id']}_nonce", "${config['id']}_nonce");
+
+        parent::callback($config);
+    }
+
+    /**
+     * Emit filter event to add custom meta box class through WordPress hook system
+     *
+     * @since 0.1.0
+     * @param Array $config
+     * @return void
+     */
+    protected function filterClass()
+    {
+        foreach ($this->config as $config) {
+            app('events')->addFilter("postbox_classes_{$config['screen']}_{$config['id']}", [$this, 'addClass']);
+        }
+    }
+
+    /**
      * Retrieve all the meta fields in a particular section
      *
      * @since 0.1.0
      * @param string $meta_box_id
-     * @return array $section_meta_fields
+     * @return array $fields_in_box
      */
-    private function getMetaFieldsByMetaBox(string $meta_box_id)
+    protected function getMetaFieldsByMetaBox(string $meta_box_id)
     {
         $meta_fields = config('meta-fields');
-        $section_meta_fields = [];
+        $fields_in_box = [];
 
         foreach ($meta_fields as $meta_field) {
             if ($meta_box_id === $meta_field['meta_box']) {
-                $section_meta_fields[] = $meta_field;
+                $fields_in_box[] = $meta_field;
             }
         }
 
-        return $section_meta_fields;
+        return $fields_in_box;
     }
 }

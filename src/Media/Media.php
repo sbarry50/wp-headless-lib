@@ -48,6 +48,17 @@ class Media extends WordPress implements WordPressAPIContract
     }
     
     /**
+     * Filter the image upload config and send it off for rendering
+     *
+     * @since 0.1.0
+     * @return void
+     */
+    public function render(array $config)
+    {
+        app('views')->render('fields/image-upload', $this->imageUploadFilter($config));
+    }
+
+    /**
      * Filter the config for an image upload
      *
      * @since 0.1.0
@@ -61,7 +72,7 @@ class Media extends WordPress implements WordPressAPIContract
         $config['args']['admin_width'] = isset($config['args']['admin_width']) ? $config['args']['admin_width'] : 150;
         $config['args']['admin_height'] = isset($config['args']['admin_height']) ? $config['args']['admin_height'] : 150;
         $config['args']['graphql_size'] = isset($config['args']['graphql_size']) ? $config['args']['graphql_size'] : 'full';
-        $config['default_image'] = url('resources/img', 'no-image.png');
+        $config['default_image'] = url('resources/img/no-image.png');
         $wp_img_id = array_key_exists('page', $config) ? get_option($config['id']) : get_post_meta(get_the_ID(), $config['id'], true);
 
         if (!empty($wp_img_id)) {

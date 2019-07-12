@@ -13,6 +13,7 @@ namespace SB2Media\Headless\WordPress;
 
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use function SB2Media\Headless\app;
+use function SB2Media\Headless\view;
 
 abstract class WordPress implements WordPressAPIContract
 {
@@ -56,16 +57,43 @@ abstract class WordPress implements WordPressAPIContract
      * Callback function to route data to appropriate template for display
      *
      * @since 0.1.0
-     * @param String $view    View template to call
-     * @param Array  $config  Functionality configuration
+     * @param array  $config  Functionality configuration
      * @return void
      */
-    protected function callback(string $view, array $config, bool $field = false)
+    public function callback(array $config)
     {
-        app('views')->render($view, $config, $field);
-        
-        if (isset($config['args']['description']) && !empty($config['args']['description'])) {
-            app('views')->render('description', $config, $field);
+        // Return if there is no callback set
+        if (!isset($config['callback'])) {
+            return;
         }
+
+        if (is_array($config['callback']) && $this->callbackHasContainerId($config['callback'])) {
+            $config['callback'][0] = app($config['callback'][0]);
+        }
+        
+        if (is_callable($config['callback'])) {
+            call_user_func($config['callback'], $config);
+        }
+
+        if (is_string($config['callback']) && app('file')->fileExistsInDirectory($config['callback'], view())) {
+            $relative_path = app('file')->getRelativeFilePath($config['callback'], view());
+            app('views')->render($relative_path, $config);
+        }
+
+        if (isset($config['args']['description']) && !empty($config['args']['description'])) {
+            app('views')->render('fields/description', $config);
+        }
+    }
+
+    /**
+     * Check if the callback array includes a container id that needs resolving
+     *
+     * @since 0.1.0
+     * @param array $callback
+     * @return void
+     */
+    protected function callbackHasContainerId(array $callback)
+    {
+        return !class_exists($callback[0])  && !is_object($callback[0]) && app()->has($callback[0]);
     }
 }

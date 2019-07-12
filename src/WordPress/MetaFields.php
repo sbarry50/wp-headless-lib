@@ -24,8 +24,8 @@ class MetaFields extends WordPress implements WordPressAPIContract
      */
     public function register()
     {
-        foreach ($this->config as $cfg) {
-            $this->save($cfg['id'], $cfg['meta_box']);
+        foreach ($this->config as $config) {
+            $this->save($config['id'], $config['meta_box']);
         }
 
         return $this;

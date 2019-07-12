@@ -11,6 +11,7 @@
 
 namespace SB2Media\Headless\WordPress;
 
+use Illuminate\Support\Str;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use function SB2Media\Headless\app;
 
@@ -24,6 +25,12 @@ class Settings extends WordPress implements WordPressAPIContract
      */
     public $option_group;
 
+    /**
+     * Constructor
+     *
+     * @since 0.1.0
+     * @param array $config
+     */
     public function __construct(array $config)
     {
         $this->option_group = str_replace('-', '_', app()->id);
@@ -41,7 +48,7 @@ class Settings extends WordPress implements WordPressAPIContract
         foreach ($this->config as $config) {
             $args = $this->resolveArgs($config);
             register_setting(
-                $this->option_group,
+                str_replace('-', '_', $config['page']),
                 $config['id'],
                 $args
             );
@@ -71,8 +78,8 @@ class Settings extends WordPress implements WordPressAPIContract
     {
         foreach ($this->config as $config) {
             $config['value'] = get_option($config['id']);
-            $callback = (!is_string($config['callback'])) ? $config['callback'] : function () use ($config) {
-                $this->callback($config['callback'], $config, true);
+            $callback = function ($args) use ($config) {
+                $this->callback($config);
             };
             
             add_settings_field(
@@ -97,7 +104,7 @@ class Settings extends WordPress implements WordPressAPIContract
     {
         $defaults = [
             'type'              => 'string',
-            'group'             => $this->option_group,
+            'group'             => str_replace('-', '_', $config['page']),
             'description'       => '',
             'sanitize_callback' => null,
             'show_in_rest'      => true,
