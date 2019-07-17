@@ -48,6 +48,6 @@ class Sections extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('admin_init', [$this, 'register']);
+        EventManager::addAction('admin_init', [$this, 'register']);
     }
 }

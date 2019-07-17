@@ -15,11 +15,19 @@ use Exception;
 use WPGraphQL\TypeRegistry;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use SB2Media\Headless\Application;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
 
 abstract class GraphQLManager implements WordPressAPIContract
 {
+    /**
+     * Application instance
+     *
+     * @since 0.3.0
+     * @var Application
+     */
+    public $app;
+    
     /**
      * GraphQL core scalars
      *
@@ -51,8 +59,9 @@ abstract class GraphQLManager implements WordPressAPIContract
      * @since 0.1.0
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(Application $app, array $config)
     {
+        $this->app = $app;
         $this->config = $config;
         $this->add();
     }
@@ -150,10 +159,10 @@ abstract class GraphQLManager implements WordPressAPIContract
 
             if (isset($config['resolver'])) {
                 if (is_null($config['default_value'])) {
-                    return app($config['resolver'])->resolve($config, $value, $post_id);
+                    return $this->app->get($config['resolver'])->resolve($config, $value, $post_id);
                 }
                 
-                return !empty($value) ? app($config['resolver'])->resolve($config, $value, $post_id) : $config['default_value'];
+                return !empty($value) ? $this->app->get($config['resolver'])->resolve($config, $value, $post_id) : $config['default_value'];
             }
         }
 
@@ -168,10 +177,10 @@ abstract class GraphQLManager implements WordPressAPIContract
 
             if (is_string($type['list_of']) && isset($config['resolver'])) {
                 if (is_null($config['default_value'])) {
-                    return (array) app($config['resolver'])->resolve($config, $value, $post_id);
+                    return (array) $this->app->get($config['resolver'])->resolve($config, $value, $post_id);
                 }
                 
-                return !empty($value) ? (array) app($config['resolver'])->resolve($config, $value, $post_id) : (array) $config['default_value'];
+                return !empty($value) ? (array) $this->app->get($config['resolver'])->resolve($config, $value, $post_id) : (array) $config['default_value'];
             }
         }
     }

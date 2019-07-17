@@ -12,8 +12,8 @@
 namespace SB2Media\Headless\WordPress;
 
 use Illuminate\Support\Str;
+use SB2Media\Headless\Application;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
 
 class Settings extends WordPress implements WordPressAPIContract
 {
@@ -33,7 +33,7 @@ class Settings extends WordPress implements WordPressAPIContract
      */
     public function __construct(array $config)
     {
-        $this->option_group = str_replace('-', '_', app()->id);
+        $this->option_group = str_replace('-', '_', $this->app->id);
         parent::__construct($config);
     }
 
@@ -64,8 +64,8 @@ class Settings extends WordPress implements WordPressAPIContract
     public function add()
     {
         // WP-GraphQL only works with settings if we hook into 'init' when we register_setting
-        app('events')->addAction('init', [$this, 'register']);
-        app('events')->addAction('admin_init', [$this, 'addSettingsFields']);
+        EventManager::addAction('init', [$this, 'register']);
+        EventManager::addAction('admin_init', [$this, 'addSettingsFields']);
     }
 
     /**

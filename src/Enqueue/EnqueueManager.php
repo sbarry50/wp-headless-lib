@@ -11,8 +11,6 @@
 
 namespace SB2Media\Headless\Enqueue;
 
-use function SB2Media\Headless\app;
-
 class EnqueueManager
 {
     /**

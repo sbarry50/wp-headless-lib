@@ -49,6 +49,6 @@ class Menus extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('admin_menu', array($this, 'register'));
+        EventManager::addAction('admin_menu', array($this, 'register'));
     }
 }

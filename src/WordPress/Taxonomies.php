@@ -42,6 +42,6 @@ class Taxonomies extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('init', [$this, 'register']);
+        EventManager::addAction('init', [$this, 'register']);
     }
 }

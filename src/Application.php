@@ -15,8 +15,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use SB2Media\Headless\File\Loader;
 use SB2Media\Headless\Config\Config;
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\Container\Container;
-use function SB2Media\Headless\headerData;
 
 class Application extends Container
 {
@@ -102,14 +102,14 @@ class Application extends Container
     public function __construct(string $root)
     {
         parent::__construct();
-        $this->basename = plugin_basename($root);
-        $this->id = strtolower(str_replace(' ', '-', headerData('Name', $root)));
-        $this->name = headerData('Name', $root);
-        $this->path = plugin_dir_path($root);
         $this->root = $root;
-        $this->text_domain = headerData('TextDomain', $root);
+        $this->basename = plugin_basename($root);
+        $this->id = strtolower(str_replace(' ', '-', $this->headerData('Name')));
+        $this->name = $this->headerData('Name');
+        $this->path = plugin_dir_path($root);
+        $this->text_domain = $this->headerData('TextDomain');
         $this->url = plugin_dir_url($root);
-        $this->version = headerData('Version', $root);
+        $this->version = $this->headerData('Version');
     }
 
     /**
@@ -132,6 +132,31 @@ class Application extends Container
         $this->enqueueScripts();
 
         return $this;
+    }
+
+    /**
+     * Get / set the specified configuration value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @since  0.1.0
+     * @param  array|string $key
+     * @param  mixed        $default
+     * @return Config
+     *
+     * @copyright Taylor Otwell
+     * @license   https://github.com/laravel/framework/blob/5.8/LICENSE.md MIT
+     * @link      https://github.com/laravel/framework/blob/5.8/src/Illuminate/Foundation/helpers.php#L263-L285
+     */
+    public function config($key = null, $default = null)
+    {
+        if (is_null($key)) {
+            return $this->get('config');
+        }
+        if (is_array($key)) {
+            return $this->get('config')->set($key);
+        }
+        return $this->get('config')->get($key, $default);
     }
 
     /**
@@ -199,6 +224,32 @@ class Application extends Container
     }
 
     /**
+     * Get plugin data from the plugin's bootstrap file header comment using WP core's get_file_data function
+     *
+     * @since  0.1.0
+     * @param  string    $id    Plugin header data unique id
+     * @return array            Array of plugin data from the bootstrap file header comment
+     */
+    public function headerData(string $id)
+    {
+        $default_headers = [
+            'Name'        => 'Plugin Name',
+            'PluginURI'   => 'Plugin URI',
+            'Version'     => 'Version',
+            'Description' => 'Description',
+            'Author'      => 'Author',
+            'AuthorURI'   => 'Author URI',
+            'TextDomain'  => 'Text Domain',
+            'DomainPath'  => 'Domain Path',
+            'Network'     => 'Network',
+            // Site Wide Only is deprecated in favor of Network.
+            '_sitewide'   => 'Site Wide Only',
+        ];
+
+        return get_file_data($this->root, $default_headers)[$id];
+    }
+
+    /**
      * Register all the configurations
      *
      * @since 0.1.0
@@ -206,17 +257,17 @@ class Application extends Container
      */
     protected function registerConfigs()
     {
-        $config_dir = scandir(path('config'));
+        $config_dir = scandir($this->path('config'));
         $config_files = $this->filterConfigDir($config_dir);
         $config_ids = [];
 
-        app()->set('config', new Config());
+        $this->set('config', new Config());
 
         foreach ($config_files as $config_id => $config_file) {
             $config = [];
-            $config_values = Loader::loadFile(path("config/{$config_file}"));
+            $config_values = Loader::loadFile($this->path('config', $config_file));
             $config[$config_id] = $config_values;
-            config($config);
+            $this->config($config);
         }
     }
 
@@ -228,14 +279,14 @@ class Application extends Container
      */
     protected function registerProviders()
     {
-        $providers = config('providers');
+        $providers = $this->config('providers');
         $keys = [];
 
         foreach ($providers as $collection_key => $collection) {
             $this->setCollection("{$this->id}.providers.{$collection_key}", $collection);
 
             foreach ($collection as $id => $config) {
-                $this->instantiate($id, $config);
+                $this->setInstance($id, $config);
             }
         }
 
@@ -250,8 +301,8 @@ class Application extends Container
      */
     protected function enqueueScripts()
     {
-        app('events')->addAction('admin_enqueue_scripts', [app('admin-enqueue'), 'enqueue']);
-        app('events')->addAction('wp_enqueue_scripts', [app('enqueue'), 'enqueue']);
+        EventManager::addAction('admin_enqueue_scripts', [$this->get('admin-enqueue'), 'enqueue']);
+        EventManager::addAction('wp_enqueue_scripts', [$this->get('enqueue'), 'enqueue']);
     }
 
     /**
@@ -262,22 +313,26 @@ class Application extends Container
      * @param array $config
      * @return void
      */
-    protected function instantiate(string $id, array $config)
+    protected function setInstance(string $id, array $config)
     {
         $args = [];
 
-        if (array_key_exists('config', $config)) {
-            foreach ($config['config'] as $cfg) {
-                $args[] = config($cfg);
-            }
+        if (array_key_exists('app', $config) && $config['app']) {
+            $args[] = $this;
         }
 
         if (array_key_exists('dependencies', $config)) {
             foreach ($config['dependencies'] as $dependency) {
-                $args[] = app($dependency);
+                $args[] = $this->get($dependency);
             }
         }
-        
+
+        if (array_key_exists('config', $config)) {
+            foreach ($config['config'] as $cfg) {
+                $args[] = $this->config($cfg);
+            }
+        }
+
         if (array_key_exists('params', $config)) {
             foreach ($config['params'] as $param) {
                 $args[] = $param;

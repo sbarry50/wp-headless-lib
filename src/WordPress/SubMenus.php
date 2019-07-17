@@ -104,6 +104,6 @@ class SubMenus extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('admin_menu', [$this, 'register']);
+        EventManager::addAction('admin_menu', [$this, 'register']);
     }
 }

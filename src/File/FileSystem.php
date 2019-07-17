@@ -19,10 +19,10 @@ class FileSystem extends FileSystemBase
     /**
      * Check if a file is present in a directory or its subdirectories
      *
-     * @since 1.0.0
+     * @since 0.2.0
      * @param string $filename
      * @param string $directory
-     * @return void
+     * @return boolean
      */
     public function fileExistsInDirectory(string $filename, string $directory)
     {
@@ -39,6 +39,14 @@ class FileSystem extends FileSystemBase
         return in_array($filename, $filenames);
     }
 
+    /**
+     * Get the relative file path to a particular file from a directory
+     *
+     * @since 0.2.0
+     * @param string $filename
+     * @param string $directory
+     * @return string
+     */
     public function getRelativeFilePath(string $filename, string $directory)
     {
         $files = $this->allFiles($directory);

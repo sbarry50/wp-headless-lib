@@ -14,7 +14,6 @@ namespace SB2Media\Headless\File;
 use Exception;
 use SB2Media\Headless\Setup\Compatibility;
 use SB2Media\Headless\Contracts\LoaderContract;
-use function SB2Media\Headless\app;
 
 class Loader implements LoaderContract
 {
@@ -63,11 +62,11 @@ class Loader implements LoaderContract
     public static function isValidFile($file)
     {
         if (! file_exists($file)) {
-            throw new Exception(sprintf('%s %s', __('The file does not exist.', app()->text_domain), $file));
+            throw new Exception(sprintf('%s %s', 'The file does not exist.', $file));
         }
 
         if (! is_readable($file)) {
-            throw new Exception(sprintf('%s %s', __('The file is not readable', app()->text_domain), $file));
+            throw new Exception(sprintf('%s %s', 'The file is not readable', $file));
         }
 
         return true;

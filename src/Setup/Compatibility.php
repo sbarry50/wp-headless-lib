@@ -11,12 +11,18 @@
 
 namespace SB2Media\Headless\Setup;
 
+use SB2Media\Headless\Application;
 use SB2Media\Headless\File\Loader;
-use function SB2Media\Headless\app;
-use function SB2Media\Headless\view;
 
 class Compatibility
 {
+    /**
+     * Application instance
+     *
+     * @since 0.3.0
+     * @var Application
+     */
+    public $app;
 
     /**
      * Current version of WordPress
@@ -51,8 +57,9 @@ class Compatibility
      *
      * @since 0.1.0
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
         $this->wp_version = get_bloginfo('version');
         $this->php_version = phpversion();
         $this->check();
@@ -106,8 +113,8 @@ class Compatibility
      */
     public function disablePlugin()
     {
-        if (current_user_can('activate_plugins') && is_plugin_active(app()->basename)) {
-            deactivate_plugins(app()->basename);
+        if (current_user_can('activate_plugins') && is_plugin_active($this->app->basename)) {
+            deactivate_plugins($this->app->basename);
 
             // Hide the default "Plugin activated" notice
             if (isset($_GET[ 'activate' ])) {
@@ -124,7 +131,7 @@ class Compatibility
      */
     public function renderNotice()
     {
-        $notice = view('errors/compatibility-notice.php');
+        $notice = $this->app->view('errors/compatibility-notice.php');
         printf(Loader::loadOutputFile($notice));
     }
 
@@ -150,7 +157,7 @@ class Compatibility
      */
     private function addAdminEvents()
     {
-        app('events')->addAction('admin_init', [$this, 'disablePlugin']);
-        app('events')->addAction('admin_notices', [$this, 'renderNotice']);
+        EventManager::addAction('admin_init', [$this, 'disablePlugin']);
+        EventManager::addAction('admin_notices', [$this, 'renderNotice']);
     }
 }

@@ -64,7 +64,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('add_meta_boxes', [$this, 'register']);
+        EventManager::addAction('add_meta_boxes', [$this, 'register']);
     }
 
     /**
@@ -112,7 +112,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
     protected function filterClass()
     {
         foreach ($this->config as $config) {
-            app('events')->addFilter("postbox_classes_{$config['screen']}_{$config['id']}", [$this, 'addClass']);
+            EventManager::addFilter("postbox_classes_{$config['screen']}_{$config['id']}", [$this, 'addClass']);
         }
     }
 
@@ -125,7 +125,7 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
      */
     protected function getMetaFieldsByMetaBox(string $meta_box_id)
     {
-        $meta_fields = config('meta-fields');
+        $meta_fields = $this->app->get('config')->get('meta-fields');
         $fields_in_box = [];
 
         foreach ($meta_fields as $meta_field) {

@@ -11,6 +11,7 @@
 
 namespace SB2Media\Headless\GraphQL;
 
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\GraphQL\GraphQLManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use function SB2Media\Headless\app;
@@ -29,7 +30,7 @@ class Types extends GraphQLManager implements WordPressAPIContract
             $config['type'] = lcfirst($config['type']);
 
             if (!$this->isValidType($config['type'])) {
-                throw new Exception(printf(__("GraphQL {$config['type']} type invalid. Allowed values are 'enum', 'object', 'union', 'scalar' and 'interface'", app()->text_domain)));
+                throw new Exception(printf("GraphQL {$config['type']} type invalid. Allowed values are 'enum', 'object', 'union', 'scalar' and 'interface'"));
             }
 
             $register_function = 'register_graphql_' . lcfirst($config['type']) . '_type';
@@ -46,7 +47,7 @@ class Types extends GraphQLManager implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('graphql_register_types', [$this, 'register']);
+        EventManager::addAction('graphql_register_types', [$this, 'register']);
     }
 
     /**

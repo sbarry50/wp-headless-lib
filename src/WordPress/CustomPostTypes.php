@@ -39,7 +39,7 @@ class CustomPostTypes extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('init', array($this, 'register'));
+        EventManager::addAction('init', array($this, 'register'));
     }
 
     /**

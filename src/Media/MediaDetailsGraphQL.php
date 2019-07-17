@@ -2,7 +2,7 @@
 /**
  * Class for resolving the MediaDetails object type
  *
- * @package    SB2Media\BusinessInfo\Hours
+ * @package    SB2Media\Headless\Media
  * @since      0.1.0
  * @author     sbarry
  * @link       http://example.com
@@ -12,7 +12,6 @@
 namespace SB2Media\Headless\Media;
 
 use SB2Media\Headless\Contracts\GraphQLResolverContract;
-use function SB2Media\Headless\app;
 
 class MediaDetailsGraphQL implements GraphQLResolverContract
 {

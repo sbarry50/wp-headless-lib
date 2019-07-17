@@ -39,7 +39,7 @@ class MetaFields extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('save_post', [$this, 'register']);
+        EventManager::addAction('save_post', [$this, 'register']);
     }
 
     /**

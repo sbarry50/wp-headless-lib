@@ -12,10 +12,9 @@
 namespace SB2Media\Headless\GraphQL;
 
 use Illuminate\Support\Str;
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\GraphQL\GraphQLManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
-use function SB2Media\Headless\config;
 
 class MetaFields extends GraphQLManager implements WordPressAPIContract
 {
@@ -60,7 +59,7 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('graphql_register_types', [$this, 'register']);
+        EventManager::addAction('graphql_register_types', [$this, 'register']);
     }
 
     /**
@@ -72,7 +71,7 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
      */
     protected function metaFieldsInPostType(string $post_type)
     {
-        $meta_boxes = config('meta-boxes');
+        $meta_boxes = $this->app->get('config')->get('meta-boxes');
         $fields = [];
 
         foreach ($this->config as $meta_field) {

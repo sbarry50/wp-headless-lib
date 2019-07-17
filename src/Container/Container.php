@@ -12,22 +12,10 @@
 namespace SB2Media\Headless\Container;
 
 use Pimple\Container as Pimple;
-use SB2Media\Headless\File\Loader;
-use SB2Media\Headless\Config\Config;
-use SB2Media\Headless\Support\Paths;
 use SB2Media\Headless\Contracts\ContainerContract;
-use function SB2Media\Headless\app;
 
 class Container extends Pimple implements ContainerContract
 {
-    /**
-     * Instance of Container
-     *
-     * @since 0.1.0
-     * @var   Container
-     */
-    public static $instance;
-
     /**
      * Collection of config keys
      *
@@ -35,40 +23,6 @@ class Container extends Pimple implements ContainerContract
      * @var   array
      */
     public $collection = [];
-
-    /**
-     * Contructor
-     *
-     * @since 0.1.0
-     */
-    public function __construct()
-    {
-        self::$instance = $this;
-    }
-
-    /**
-     * Get instance of Container
-     *
-     * @since    0.1.0
-     * @param    string    $id    The unique identifier for the parameter or object
-     * @return   Container
-     */
-    public static function getInstance(string $id = null)
-    {
-        return self::$instance->get(self::$instance->id($id));
-    }
-
-    /**
-     * Set instance of Container
-     *
-     * @since    0.1.0
-     * @param    string    $id          The unique identifier for the parameter or object
-     * @param    mixed     $value
-     */
-    public static function setInstance(string $id, $value)
-    {
-        return self::$instance->set(self::$instance->id($id), $value);
-    }
 
     /**
      * Get item from container
@@ -79,7 +33,7 @@ class Container extends Pimple implements ContainerContract
      */
     public function get(string $id)
     {
-        return $this->offsetGet($this->id($id));
+        return $this->offsetGet($id);
     }
 
     /**
@@ -92,7 +46,7 @@ class Container extends Pimple implements ContainerContract
      */
     public function set(string $id, $value)
     {
-        $this->offsetSet($this->id($id), $value);
+        $this->offsetSet($id, $value);
     }
 
     /**
@@ -105,7 +59,7 @@ class Container extends Pimple implements ContainerContract
      */
     public function has(string $id)
     {
-        return $this->offsetExists($this->id($id));
+        return $this->offsetExists($id);
     }
 
     /**
@@ -154,17 +108,5 @@ class Container extends Pimple implements ContainerContract
     public function getCollection(string $key)
     {
         return $this->collection[$key];
-    }
-
-    /**
-     * Build and return the full unique identifier for the parameter or object
-     *
-     * @since   0.1.0
-     * @param   string    $id    The unique identifier of the object or parameter
-     * @return  string
-     */
-    public function id(string $id)
-    {
-        return app()->id . '.' . $id;
     }
 }

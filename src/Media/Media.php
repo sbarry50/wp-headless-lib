@@ -13,8 +13,6 @@ namespace SB2Media\Headless\Media;
 
 use SB2Media\Headless\Wordpress\Wordpress;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
-use function SB2Media\Headless\url;
 
 class Media extends WordPress implements WordPressAPIContract
 {
@@ -22,7 +20,7 @@ class Media extends WordPress implements WordPressAPIContract
      * Register the menus with WordPress
      *
      * @since 0.1.0
-     * @return this
+     * @return void
      */
     public function register()
     {
@@ -44,7 +42,7 @@ class Media extends WordPress implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('after_setup_theme', array($this, 'register'));
+        EventManager::addAction('after_setup_theme', array($this, 'register'));
     }
     
     /**
@@ -55,7 +53,7 @@ class Media extends WordPress implements WordPressAPIContract
      */
     public function render(array $config)
     {
-        app('views')->render('fields/image-upload', $this->imageUploadFilter($config));
+        $this->app->get('views')->render('fields/image-upload', $this->imageUploadFilter($config));
     }
 
     /**
@@ -72,7 +70,7 @@ class Media extends WordPress implements WordPressAPIContract
         $config['args']['admin_width'] = isset($config['args']['admin_width']) ? $config['args']['admin_width'] : 150;
         $config['args']['admin_height'] = isset($config['args']['admin_height']) ? $config['args']['admin_height'] : 150;
         $config['args']['graphql_size'] = isset($config['args']['graphql_size']) ? $config['args']['graphql_size'] : 'full';
-        $config['default_image'] = url('resources/img/no-image.png');
+        $config['default_image'] = $this->app->url('resources/img', 'no-image.png');
         $wp_img_id = array_key_exists('page', $config) ? get_option($config['id']) : get_post_meta(get_the_ID(), $config['id'], true);
 
         if (!empty($wp_img_id)) {

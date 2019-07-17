@@ -14,25 +14,6 @@ namespace SB2Media\Headless\Contracts;
 interface ContainerContract
 {
     /**
-     * Get instance of Container
-     *
-     * @since  0.1.0
-     * @param  string  $id  The unique identifier for the parameter or object
-     * @return Container
-     */
-    public static function getInstance(string $id);
-
-    /**
-     * Set instance of Container
-     *
-     * @since    0.1.0
-     * @param    string    $id    The unique identifier for the parameter or object
-     * @param    mixed     $value
-     * @return   void
-     */
-    public static function setInstance(string $id, $value);
-
-    /**
      * Get item from container
      *
      * @param string $id The unique identifier for the parameter or object

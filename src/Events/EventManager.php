@@ -17,9 +17,75 @@
 namespace SB2Media\Headless\Events;
 
 use DownShift\WordPress\EventEmitter as Events;
+use SB2Media\Headless\Application;
 
 class EventManager extends Events
 {
+    /**
+     * Singleton
+     *
+     * @since 0.3.0
+     * @var self
+     */
+    private static $instance = null;
+
+    /**
+     * Constructor
+     *
+     * @since 0.3.0
+     */
+    private function __construct()
+    {
+        // intentionally blank
+    }
+
+    /**
+     * Clone
+     *
+     * @since 0.3.0
+     * @return void
+     */
+    private function __clone()
+    {
+        // intentionally blank
+    }
+
+    /**
+     * Sleep
+     *
+     * @since 0.3.0
+     * @return void
+     */
+    private function __sleep()
+    {
+        // intentionally blank
+    }
+
+    /**
+     * Wakeup
+     *
+     * @since 0.3.0
+     * @return void
+     */
+    private function __wakeup()
+    {
+        // intentionally blank
+    }
+
+    /**
+     * Singleton
+     *
+     * @since 0.3.0
+     * @return void
+     */
+    public static function getInstance()
+    {
+        if (empty(self::$instance)) {
+            self::$instance = new self;
+            return self::$instance;
+        }
+        return self::$instance;
+    }
 
     /**
      * Add an action to an event hook through the WordPress Plugin API
@@ -32,9 +98,9 @@ class EventManager extends Events
      *
      * @return EventEmitter
      */
-    public function addAction(string $event, $callback, int $priority = 10, int $acceptedArgs = 1)
+    public static function addAction(string $event, $callback, int $priority = 10, int $acceptedArgs = 1)
     {
-        return $this->on($event, $callback, $priority, $acceptedArgs);
+        return self::getInstance()->on($event, $callback, $priority, $acceptedArgs);
     }
 
     /**
@@ -47,9 +113,9 @@ class EventManager extends Events
      * @param int    $acceptedArgs    The number of arguments the function accepts.
      * @return EventEmitter
      */
-    public function addFilter(string $name, $callback, int $priority = 10, int $acceptedArgs = 1)
+    public static function addFilter(string $name, $callback, int $priority = 10, int $acceptedArgs = 1)
     {
-        return $this->filter($name, $callback, $priority, $acceptedArgs);
+        return self::getInstance()->filter($name, $callback, $priority, $acceptedArgs);
     }
 
     /**
@@ -62,20 +128,8 @@ class EventManager extends Events
      * @param int    $acceptedArgs    The number of arguments the function accepts.
      * @return EventEmitter
      */
-    public function removeAction(string $event, $callback, $priority = 10)
+    public static function removeAction(string $event, $callback, $priority = 10)
     {
-        return $this->off($event, $callback, $priority);
-    }
-
-    /**
-     * Get an instance of the Event Emitter class
-     *
-     * @since  0.1.0
-     * @param  string    $id   Name of the instance to retrieve
-     * @return EventEmitter
-     */
-    public static function getEventManager()
-    {
-        return \SB2Media\Headless\app('event-manager');
+        return self::getInstance()->off($event, $callback, $priority);
     }
 }

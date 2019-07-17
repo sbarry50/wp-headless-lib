@@ -15,7 +15,7 @@
 
 namespace SB2Media\Headless\Setup;
 
-use function SB2Media\Headless\app;
+use SB2Media\Headless\Application;
 
 class Activation
 {
@@ -87,10 +87,10 @@ class Activation
         }
 
         // This feels like a workaround. Produces "Are you sure you want to do this?" error if deactivated due to failed requirements check.
-        if (app()->get('compatibility')->allCompatible()) {
-            $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
-            check_admin_referer("deactivate-plugin_{$plugin}");
-        }
+        // if ($this->app->get('compatibility')->allCompatible()) {
+        $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+        check_admin_referer("deactivate-plugin_{$plugin}");
+        // }
 
         // @link https://knowthecode.io/labs/custom-post-type-basics/episode-8
         // flush_rewrite_rules() results in weird behavior. Use this instead...

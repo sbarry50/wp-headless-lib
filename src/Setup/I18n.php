@@ -14,17 +14,26 @@
 
 namespace SB2Media\Headless\Setup;
 
-use function SB2Media\Headless\app;
+use SB2Media\Headless\Application;
 
 class I18n
 {
+    /**
+     * Application instance
+     *
+     * @since 0.3.0
+     * @var Application
+     */
+    public $app;
+ 
     /**
      * Constructor
      *
      * @since 0.1.0
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
         $this->loadPluginTextDomain();
     }
 
@@ -36,9 +45,9 @@ class I18n
     public function loadPluginTextDomain()
     {
         \load_plugin_textdomain(
-            app()->text_domain,
+            $this->app->text_domain,
             false,
-            app()->path('lang')
+            $this->app->path('lang')
         );
     }
 }

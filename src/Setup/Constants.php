@@ -10,11 +10,19 @@
  */
 namespace SB2Media\Headless\Setup;
 
+use SB2Media\Headless\Application;
 use SB2Media\Headless\Contracts\ConstantsContract;
-use function SB2Media\Headless\app;
 
 class Constants implements ConstantsContract
 {
+    /**
+     * Application instance
+     *
+     * @since 0.3.0
+     * @var Application
+     */
+    public $app;
+
     /**
      * The constants array
      *
@@ -27,8 +35,9 @@ class Constants implements ConstantsContract
      *
      * @since  0.1.0
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
         $this->constants = $this->build();
         $this->define();
     }
@@ -78,16 +87,16 @@ class Constants implements ConstantsContract
      */
     protected function build()
     {
-        $prefix = self::prefix();
+        $prefix = $this->prefix();
 
         return [
-            "{$prefix}_ROOT"        => app()->root,
-            "{$prefix}_NAME"        => app()->name,
-            "{$prefix}_BASENAME"    => app()->basename,
-            "{$prefix}_DIR_PATH"    => app()->path,
-            "{$prefix}_DIR_URL"     => app()->url,
-            "{$prefix}_TEXT_DOMAIN" => app()->text_domain,
-            "{$prefix}_VERSION"     => app()->version,
+            "{$prefix}_ROOT"        => $this->app->root,
+            "{$prefix}_NAME"        => $this->app->name,
+            "{$prefix}_BASENAME"    => $this->app->basename,
+            "{$prefix}_DIR_PATH"    => $this->app->path,
+            "{$prefix}_DIR_URL"     => $this->app->url,
+            "{$prefix}_TEXT_DOMAIN" => $this->app->text_domain,
+            "{$prefix}_VERSION"     => $this->app->version,
         ];
     }
 
@@ -98,8 +107,8 @@ class Constants implements ConstantsContract
      * @param string $plugin_id
      * @return string
      */
-    public static function prefix()
+    public function prefix()
     {
-        return strtoupper(str_replace('-', '_', app()->id));
+        return strtoupper(str_replace('-', '_', $this->app->id));
     }
 }

@@ -12,6 +12,7 @@
 namespace SB2Media\Headless\GraphQL;
 
 use Illuminate\Support\Str;
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\GraphQL\GraphQLManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use SB2Media\Headless\Contracts\GraphQLResolverContract;
@@ -27,7 +28,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
      */
     public function register()
     {
-        app('events')->addFilter('graphql_settings_fields', function ($fields) {
+        EventManager::addFilter('graphql_settings_fields', function ($fields) {
             return $this->resolveFilteredSettings($fields, $this->config);
         });
 
@@ -48,7 +49,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
 
             $camel_case_option_group = Str::camel($page_slug);
 
-            app('events')->addFilter("graphql_{$camel_case_option_group}Settings_fields", function ($fields) use ($page_config) {
+            EventManager::addFilter("graphql_{$camel_case_option_group}Settings_fields", function ($fields) use ($page_config) {
                 return $this->resolveFilteredSettings($fields, $page_config, true);
             });
         }
@@ -62,7 +63,7 @@ class Settings extends GraphQLManager implements WordPressAPIContract
      */
     public function add()
     {
-        app('events')->addAction('graphql_init', [$this, 'register']);
+        EventManager::addAction('graphql_init', [$this, 'register']);
     }
 
     /**

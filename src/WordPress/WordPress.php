@@ -11,12 +11,21 @@
 
 namespace SB2Media\Headless\WordPress;
 
+use SB2Media\Headless\Application;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 use function SB2Media\Headless\app;
 use function SB2Media\Headless\view;
 
 abstract class WordPress implements WordPressAPIContract
 {
+    /**
+     * Application instance
+     *
+     * @since 0.3.0
+     * @var Application
+     */
+    public $app;
+    
     /**
      * Functionality Configuration
      *
@@ -31,8 +40,9 @@ abstract class WordPress implements WordPressAPIContract
      * @since 0.1.0
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(Application $app, array $config)
     {
+        $this->app = $app;
         $this->config = $config;
         $this->add();
     }
@@ -68,20 +78,20 @@ abstract class WordPress implements WordPressAPIContract
         }
 
         if (is_array($config['callback']) && $this->callbackHasContainerId($config['callback'])) {
-            $config['callback'][0] = app($config['callback'][0]);
+            $config['callback'][0] = $this->app->get($config['callback'][0]);
         }
         
         if (is_callable($config['callback'])) {
             call_user_func($config['callback'], $config);
         }
 
-        if (is_string($config['callback']) && app('file')->fileExistsInDirectory($config['callback'], view())) {
-            $relative_path = app('file')->getRelativeFilePath($config['callback'], view());
-            app('views')->render($relative_path, $config);
+        if (is_string($config['callback']) && $this->app->get('file')->fileExistsInDirectory($config['callback'], $this->app->view())) {
+            $relative_path = $this->app->get('file')->getRelativeFilePath($config['callback'], $this->app->view());
+            $this->app->get('views')->render($relative_path, $config);
         }
 
         if (isset($config['args']['description']) && !empty($config['args']['description'])) {
-            app('views')->render('fields/description', $config);
+            $this->app->get('views')->render('fields/description', $config);
         }
     }
 
@@ -94,6 +104,6 @@ abstract class WordPress implements WordPressAPIContract
      */
     protected function callbackHasContainerId(array $callback)
     {
-        return !class_exists($callback[0])  && !is_object($callback[0]) && app()->has($callback[0]);
+        return !class_exists($callback[0])  && !is_object($callback[0]) && $this->app->has($callback[0]);
     }
 }
