@@ -19,13 +19,30 @@ use SB2Media\Headless\Application;
 
 class Activation
 {
-
+    /**
+     * Application instance
+     *
+     * @since 0.3.0
+     * @var Application
+     */
+    public $app;
+    
     /**
      * Instance of the class
      *
      * @var object
      */
     protected static $instance;
+
+    /**
+     * Constructor
+     *
+     * @since 0.3.0
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Initialize the class
