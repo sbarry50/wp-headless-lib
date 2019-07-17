@@ -22,11 +22,11 @@ class Activation
     /**
      * Application instance
      *
-     * @since 0.3.0
+     * @since 0.3.1
      * @var Application
      */
     public $app;
-    
+
     /**
      * Instance of the class
      *
@@ -37,7 +37,7 @@ class Activation
     /**
      * Constructor
      *
-     * @since 0.3.0
+     * @since 0.3.1
      */
     public function __construct(Application $app)
     {

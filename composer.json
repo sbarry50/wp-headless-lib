@@ -22,6 +22,7 @@
   "require": {
     "php": ">=7.1",
     "illuminate/config": "^5.8",
+    "illuminate/filesystem": "^5.8",
     "illuminate/support": "^5.8",
     "pimple/pimple": "~3.0",
     "downshiftorg/wp-event-emitter": "^6.0",
