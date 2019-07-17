@@ -13,8 +13,6 @@ namespace SB2Media\Headless\WordPress;
 
 use SB2Media\Headless\Application;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
-use function SB2Media\Headless\view;
 
 abstract class WordPress implements WordPressAPIContract
 {

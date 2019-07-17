@@ -11,9 +11,9 @@
 
 namespace SB2Media\Headless\WordPress;
 
+use SB2Media\Headless\Application;
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
-use function SB2Media\Headless\config;
 
 class MetaBoxes extends WordPress implements WordPressAPIContract
 {
@@ -23,9 +23,9 @@ class MetaBoxes extends WordPress implements WordPressAPIContract
      * @since 0.1.0
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(Application $app, array $config)
     {
-        parent::__construct($config);
+        parent::__construct($app, $config);
         $this->filterClass();
     }
 

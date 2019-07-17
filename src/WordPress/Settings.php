@@ -12,31 +12,11 @@
 namespace SB2Media\Headless\WordPress;
 
 use Illuminate\Support\Str;
-use SB2Media\Headless\Application;
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 
 class Settings extends WordPress implements WordPressAPIContract
 {
-    /**
-     * Wordpress Settings API option group name
-     *
-     * @since 0.1.0
-     * @var string
-     */
-    public $option_group;
-
-    /**
-     * Constructor
-     *
-     * @since 0.1.0
-     * @param array $config
-     */
-    public function __construct(array $config)
-    {
-        $this->option_group = str_replace('-', '_', $this->app->id);
-        parent::__construct($config);
-    }
-
     /**
      * Register the settings with WordPress
      *

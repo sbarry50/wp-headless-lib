@@ -11,6 +11,7 @@
 
 namespace SB2Media\Headless\Media;
 
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\Wordpress\Wordpress;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
 

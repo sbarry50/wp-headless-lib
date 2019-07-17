@@ -11,8 +11,8 @@
 
 namespace SB2Media\Headless\WordPress;
 
+use SB2Media\Headless\Events\EventManager;
 use SB2Media\Headless\Contracts\WordPressAPIContract;
-use function SB2Media\Headless\app;
 
 class MetaFields extends WordPress implements WordPressAPIContract
 {
