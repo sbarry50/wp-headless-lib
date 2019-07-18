@@ -94,6 +94,14 @@ class Application extends Container
     public $version;
 
     /**
+     * Flag for whether the plugin has been booted or not
+     *
+     * @since 0.3.0
+     * @var boolean
+     */
+    private $booted = false;
+
+    /**
      * Constructor
      *
      * @since 0.1.0
@@ -120,18 +128,14 @@ class Application extends Container
      */
     public function boot()
     {
-        static $booted;
-        if ($booted) {
+        if ($this->booted) {
             return;
         }
-
-        $booted = true;
+        $this->booted = true;
 
         $this->registerConfigs();
         $this->registerProviders();
         $this->enqueueScripts();
-
-        return $this;
     }
 
     /**

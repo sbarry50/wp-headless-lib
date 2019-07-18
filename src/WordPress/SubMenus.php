@@ -82,15 +82,6 @@ class SubMenus extends WordPress implements WordPressAPIContract
                     $callback
                 );
             }
-            
-            add_submenu_page(
-                $config['parent_slug'],
-                $config['page_title'],
-                $config['menu_title'],
-                $config['capability'],
-                $config['menu_slug'],
-                $callback
-            );
         }
 
         return $this;
