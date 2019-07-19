@@ -131,11 +131,14 @@ class Application extends Container
         if ($this->booted) {
             return;
         }
-        $this->booted = true;
-
+        
         $this->registerConfigs();
         $this->registerProviders();
         $this->enqueueScripts();
+        
+        $this->booted = true;
+
+        return $this;
     }
 
     /**
