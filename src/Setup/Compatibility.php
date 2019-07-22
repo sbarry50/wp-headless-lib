@@ -45,7 +45,7 @@ class Compatibility
      *
      * @var string
      */
-    public $min_wp_version = '6.0';
+    public $min_wp_version = '5.0';
 
     /**
      * Current version of PHP
