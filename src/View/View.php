@@ -39,10 +39,10 @@ class View
      *
      * @since 0.1.0
      * @param string $file The relative view file path
-     * @param array $data
+     * @param mixed $data
      * @return void
      */
-    public function render(string $file, array $data = [])
+    public function render(string $file, $data = [])
     {
         $file_path = $this->app->view($file);
 

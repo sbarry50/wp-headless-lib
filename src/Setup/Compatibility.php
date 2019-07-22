@@ -13,6 +13,7 @@ namespace SB2Media\Headless\Setup;
 
 use SB2Media\Headless\Application;
 use SB2Media\Headless\File\Loader;
+use SB2Media\Headless\Events\EventManager;
 
 class Compatibility
 {
@@ -23,6 +24,14 @@ class Compatibility
      * @var Application
      */
     public $app;
+
+    /**
+     * The name of the plugin
+     *
+     * @since 0.3.6
+     * @var String
+     */
+    public $plugin_name;
 
     /**
      * Current version of WordPress
@@ -36,7 +45,7 @@ class Compatibility
      *
      * @var string
      */
-    public $min_wp_version = '5.0';
+    public $min_wp_version = '6.0';
 
     /**
      * Current version of PHP
@@ -60,6 +69,7 @@ class Compatibility
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->plugin_name = $app->name;
         $this->wp_version = get_bloginfo('version');
         $this->php_version = phpversion();
         $this->check();
@@ -131,8 +141,7 @@ class Compatibility
      */
     public function renderNotice()
     {
-        $notice = $this->app->view('errors/compatibility-notice.php');
-        printf(Loader::loadOutputFile($notice));
+        $this->app->get('views')->render('errors/compatibility-notice', $this);
     }
 
     /**
