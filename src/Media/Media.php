@@ -67,10 +67,9 @@ class Media extends WordPress implements WordPressAPIContract
     public function imageUploadFilter(array $config)
     {
         $config['args']['label'] = isset($config['args']['label']) ? $config['args']['label'] : '';
-        $config['args']['admin_size'] = isset($config['args']['admin_size']) ? $config['args']['admin_size'] : 'medium';
+        $config['args']['admin_size'] = isset($config['args']['admin_size']) ? $config['args']['admin_size'] : 'thumbnail';
         $config['args']['admin_width'] = isset($config['args']['admin_width']) ? $config['args']['admin_width'] : 150;
         $config['args']['admin_height'] = isset($config['args']['admin_height']) ? $config['args']['admin_height'] : 150;
-        $config['args']['graphql_size'] = isset($config['args']['graphql_size']) ? $config['args']['graphql_size'] : 'full';
         $config['default_image'] = $this->app->url('resources/img', 'no-image.png');
         $wp_img_id = array_key_exists('page', $config) ? get_option($config['id']) : get_post_meta(get_the_ID(), $config['id'], true);
 
