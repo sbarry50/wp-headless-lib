@@ -76,7 +76,11 @@ class MetaFields extends GraphQLManager implements WordPressAPIContract
 
         foreach ($this->config as $meta_field) {
             foreach ($meta_boxes as $meta_box) {
-                if ($meta_field['meta_box'] === $meta_box['id'] && $post_type === $meta_box['screen']) {
+                if (isset($meta_field['args']['show_in_graphql'])) {
+                    $show_in_graqhql = !$meta_field['args']['show_in_graphql'] ? false : true;
+                }
+
+                if ($meta_field['meta_box'] === $meta_box['id'] && $post_type === $meta_box['screen'] && $show_in_graqhql) {
                     $fields[] = $meta_field;
                 }
             }
