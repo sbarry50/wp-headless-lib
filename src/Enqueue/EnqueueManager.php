@@ -87,10 +87,6 @@ class EnqueueManager
                     if (isset($script['localization']) && !empty($script['localization'])) {
                         $l10n = [];
 
-                        if (isset($script['localization']['values']) && is_array($script['localization']['values'])) {
-                            $l10n = $script['localization']['values'];
-                        }
-
                         if (isset($script['localization']['callback']) && !empty($script['localization']['callback'])) {
                             if (is_array($script['localization']['callback']) && is_string($script['localization']['callback'][0])) {
                                 if ($this->app->has($script['localization']['callback'][0])) {
