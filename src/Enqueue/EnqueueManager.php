@@ -11,6 +11,8 @@
 
 namespace SB2Media\Headless\Enqueue;
 
+use SB2Media\Headless\Application;
+
 class EnqueueManager
 {
     /**
@@ -35,8 +37,9 @@ class EnqueueManager
      * @since 0.1.0
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(Application $app, array $config)
     {
+        $this->app = $app;
         $this->stylesheets = $config['stylesheets'];
         $this->scripts = $config['scripts'];
     }
@@ -81,8 +84,25 @@ class EnqueueManager
                         $script['in_footer']
                     );
     
-                    if (array_key_exists('localization', $script) && !empty($script['localization'])) {
-                        $l10n = is_object($script['localization']['values'][0]) ? $script['localization']['values']() : $script['localization']['values'];
+                    if (isset($script['localization']) && !empty($script['localization'])) {
+                        $l10n = [];
+
+                        if (isset($script['localization']['values']) && is_array($script['localization']['values'])) {
+                            $l10n = $script['localization']['values'];
+                        }
+
+                        if (isset($script['localization']['callback']) && !empty($script['localization']['callback'])) {
+                            if (is_array($script['localization']['callback']) && is_string($script['localization']['callback'][0])) {
+                                if ($this->app->has($script['localization']['callback'][0])) {
+                                    $script['localization']['callback'][0] = $this->app->get($script['localization']['callback'][0]);
+                                }
+                            }
+
+                            if (is_callable($script['localization']['callback'])) {
+                                $args = isset($script['localization']['args']) ? $script['localization']['args'] : [];
+                                $l10n = call_user_func_array($script['localization']['callback'], $args);
+                            }
+                        }
     
                         wp_localize_script(
                             $script['id'],
