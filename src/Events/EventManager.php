@@ -125,7 +125,6 @@ class EventManager extends Events
      * @param string $event           The event hook
      * @param        $callback        The function to add to the event hook
      * @param int    $priority        Used to specify the order in which the functions associated with a particular action are executed.
-     * @param int    $acceptedArgs    The number of arguments the function accepts.
      * @return EventEmitter
      */
     public static function removeAction(string $event, $callback, $priority = 10)

@@ -209,7 +209,7 @@ class Application extends Container
     }
 
     /**
-     * Get the (sub)directory path of the view.
+     * Get the (sub)directory path of the view file.
      *
      * @since 0.1.1
      * @param string $relative_path      Optionally, the relative path to the file from the views directory
