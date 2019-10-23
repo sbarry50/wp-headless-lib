@@ -54,7 +54,8 @@ class CustomPostTypes extends WordPress implements WordPressAPIContract
         return get_posts([
             'fields'         => 'ids',
             'posts_per_page' => -1,
-            'post_type'      => $post_type
+            'post_type'      => $post_type,
+            'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash']
         ]);
     }
 }
